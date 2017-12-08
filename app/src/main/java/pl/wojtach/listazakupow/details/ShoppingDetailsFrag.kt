@@ -13,12 +13,6 @@ import kotlinx.android.synthetic.main.fragment_shopping_list_details.*
 import pl.wojtach.listazakupow.R
 import pl.wojtach.listazakupow.shared.ListAdapter
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [ShoppingDetailsFrag.OnFragmentInteractionListener] interface
- * to handle interaction events.
- */
 class ShoppingDetailsFrag : Fragment(), ShoppingDetailsView {
 
     override val appContext: Context

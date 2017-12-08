@@ -3,7 +3,6 @@ package pl.wojtach.listazakupow.shared
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import kotlinx.android.synthetic.main.shopping_item.view.*
 import pl.wojtach.listazakupow.R
 
@@ -15,8 +14,8 @@ interface ListAdapter<ITEM>{
     val items: MutableList<ITEM>
 }
 
-class ShoppingItemsAdapter(override val items: MutableList<String>
-) : RecyclerView.Adapter<ShoppingItemHolder>(), ListAdapter<String> {
+class ShoppingItemsAdapter(val items: List<String>
+) : RecyclerView.Adapter<ShoppingItemHolder>() {
 
     override fun onBindViewHolder(holder: ShoppingItemHolder, position: Int) {
         holder.view.shopping_item.text = items[position]
