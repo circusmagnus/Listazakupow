@@ -1,4 +1,4 @@
-package pl.wojtach.listazakupow.shared
+package pl.wojtach.listazakupow.details
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

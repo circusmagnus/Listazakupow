@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
-import pl.wojtach.listazakupow.shared.ShoppingItemsAdapter
 
 /**
  * Created by Lukasz on 05.12.2017.

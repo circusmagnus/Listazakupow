@@ -1,18 +1,11 @@
 package pl.wojtach.listazakupow.details
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
-import android.widget.ListAdapter
 import android.widget.TextView
 import org.amshove.kluent.*
 import org.junit.Test
 
-import org.junit.Assert.*
 import org.junit.Before
-import org.w3c.dom.Text
-import pl.wojtach.listazakupow.shared.ShoppingItemHolder
-import pl.wojtach.listazakupow.shared.ShoppingItemsAdapter
-import kotlin.math.exp
 
 /**
  * Created by Lukasz on 04.12.2017.
