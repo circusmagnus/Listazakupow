@@ -8,7 +8,7 @@ import pl.wojtach.listazakupow.database.DbHelper
 /**
  * Created by Lukasz on 09.12.2017.
  */
-fun writeShoppingList(context: Context, shoppingList: ShoppingList) = DbHelper(context)
+fun saveShoppingListToSQL(context: Context, shoppingList: ShoppingList) = DbHelper(context)
         .writableDatabase
         .insert(DbContract.ShoppingListsTable.name, null, getContentValues(shoppingList))
 

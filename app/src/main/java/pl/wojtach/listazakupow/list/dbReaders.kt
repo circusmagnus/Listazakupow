@@ -25,14 +25,21 @@ private val shoppingItemsProjection = arrayOf(
 private val selectAllShoppingLists = "SELECT * FROM ${DbContract.ShoppingListsTable.name} ORDER BY $timestamp"
 
 fun getAllShoppingListsFromSQLite(context: Context): List<ShoppingList> = DbHelper(context).readableDatabase
-        .rawQuery(selectAllShoppingLists, null)
+        .query(DbContract.ShoppingListsTable.name,
+                shoppingListsProjection,
+                null,
+                null,
+                null,
+                null,
+                "$timestamp DESC"
+        )
         .let { mapToEntities(it) }
 
 fun getShoppingListByIdFromSQLIte(context: Context, id: Long): ShoppingList? = DbHelper(context).readableDatabase
         .query(
                 DbContract.ShoppingListsTable.name,
                 shoppingListsProjection,
-                timestamp,
+                "$timestamp =?",
                 arrayOf(id.toString()),
                 null,
                 null,

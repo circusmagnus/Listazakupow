@@ -28,4 +28,4 @@ fun addNewShoppingList(oldData: List<ShoppingList>) = ShoppingList(
 ).let { listOf(it) + oldData }
 
 fun saveShoppingLists(context: Context, data: List<ShoppingList>) =
-        data.forEach { writeShoppingList(context, it) }
+        data.forEach { saveShoppingListToSQL(context, it) }

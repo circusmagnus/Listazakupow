@@ -3,13 +3,11 @@ package pl.wojtach.listazakupow
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import pl.wojtach.listazakupow.database.DbHelper
-import pl.wojtach.listazakupow.list.ShoppingList
-import pl.wojtach.listazakupow.list.draw
-import pl.wojtach.listazakupow.list.getAllShoppingLists
-import pl.wojtach.listazakupow.list.writeShoppingList
+import pl.wojtach.listazakupow.list.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,6 +32,14 @@ class MainActivity : AppCompatActivity() {
         false
     }
 
+    private val addNewShoppingListProcedure =
+            getShoppingLists { shoppingListsTable.adapter.shoppingLists }
+                    .mutate { addNewShoppingList(it) }
+                    .act { saveShoppingLists(data = it, context = applicationContext) }
+                    .act { drawListView(shoppingLists = it, view = shoppingListsTable) }
+
+    private val addShoppingListButtonListener = View.OnClickListener { _ -> addNewShoppingListProcedure() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -44,12 +50,12 @@ class MainActivity : AppCompatActivity() {
 
         val testShoppingList = ShoppingList(name = "testowa", timestamp = System.currentTimeMillis())
 
-        writeShoppingList(applicationContext, testShoppingList)
+        saveShoppingListToSQL(applicationContext, testShoppingList)
 
+        getShoppingLists { getAllShoppingListsFromSQLite(applicationContext) }
+                .act { drawListView(shoppingLists = it, view = shoppingListsTable) }
+                .let { if (isFinishing.not()) it.invoke() }
 
-
-        getAllShoppingLists().draw()
-                .let { if(isFinishing.not()) it.invoke(applicationContext, shoppingListsTable) }
     }
 
     override fun onDestroy() {
