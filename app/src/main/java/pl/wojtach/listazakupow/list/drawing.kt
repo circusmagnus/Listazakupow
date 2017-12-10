@@ -1,7 +1,6 @@
 package pl.wojtach.listazakupow.list
 
 import kotlinx.android.synthetic.main.shopping_list_item_view.view.*
-import pl.wojtach.listazakupow.shared.ShoppingList
 import java.text.SimpleDateFormat
 import java.util.*
 

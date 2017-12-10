@@ -1,4 +1,4 @@
-package pl.wojtach.listazakupow.shared
+package pl.wojtach.listazakupow.list
 
 import android.content.Context
 import android.database.Cursor

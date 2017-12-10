@@ -1,18 +1,15 @@
 package pl.wojtach.listazakupow
 
-import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
-import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import pl.wojtach.listazakupow.database.DbHelper
-import pl.wojtach.listazakupow.list.getAllShoppingLists
+import pl.wojtach.listazakupow.list.ShoppingList
 import pl.wojtach.listazakupow.list.draw
-import pl.wojtach.listazakupow.shared.ShoppingList
-import pl.wojtach.listazakupow.shared.writeShoppingList
+import pl.wojtach.listazakupow.list.getAllShoppingLists
+import pl.wojtach.listazakupow.list.writeShoppingList
 
 
 class MainActivity : AppCompatActivity() {

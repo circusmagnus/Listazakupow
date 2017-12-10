@@ -2,10 +2,8 @@ package pl.wojtach.listazakupow.list
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import pl.wojtach.listazakupow.R
-import pl.wojtach.listazakupow.shared.ShoppingList
 
 /**
  * Created by Lukasz on 03.12.2017.

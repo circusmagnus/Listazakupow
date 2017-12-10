@@ -1,12 +1,6 @@
 package pl.wojtach.listazakupow.list
 
-import android.app.Activity
 import android.content.Context
-import kotlinx.android.synthetic.main.shopping_list_item_view.view.*
-import pl.wojtach.listazakupow.shared.ShoppingList
-import pl.wojtach.listazakupow.shared.getAllShoppingListsFromSQLite
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * Created by Lukasz on 09.12.2017.
