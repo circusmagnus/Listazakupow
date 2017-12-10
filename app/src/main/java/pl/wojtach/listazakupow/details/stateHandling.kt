@@ -4,8 +4,4 @@ import android.content.Context
 import pl.wojtach.listazakupow.shared.ShoppingList
 import pl.wojtach.listazakupow.shared.getAllShoppingListsFromSQLite
 
-fun initialState() = { ShoppingList(
-        name = "Nowa lista",
-        timestamp = System.currentTimeMillis(),
-        shoppingItems = emptyList())}
 

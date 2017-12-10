@@ -1,17 +1,17 @@
 package pl.wojtach.listazakupow.list
 
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import pl.wojtach.nazakupy.item.ShoppingList
-import pl.wojtach.nazakupy.item.ShoppingListHolder
+import pl.wojtach.listazakupow.R
+import pl.wojtach.listazakupow.shared.ShoppingList
 
 /**
  * Created by Lukasz on 03.12.2017.
  */
-typealias ShoppingListDrawer = (view: ShoppingListSmallView) -> Unit
 
-class ShoppingListsAdapter(var shoppingLists: List<ShoppingListDrawer>)
+class ShoppingListsAdapter(var shoppingLists: List<ShoppingList>)
     : RecyclerView.Adapter<ShoppingListHolder>() {
 
     override fun onBindViewHolder(holder: ShoppingListHolder, position: Int) {
@@ -19,7 +19,11 @@ class ShoppingListsAdapter(var shoppingLists: List<ShoppingListDrawer>)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingListHolder =
-            ShoppingListHolder(View(parent.context))
+            LayoutInflater.from(parent.context)
+                    .inflate(R.layout.shopping_list_item_view, parent)
+                    .let { it as ShoppingListSmallView }
+                    .let { ShoppingListHolder(it) }
+
 
     override fun getItemCount(): Int = shoppingLists.size
 }
