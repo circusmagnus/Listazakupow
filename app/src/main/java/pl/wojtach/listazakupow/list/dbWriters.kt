@@ -2,6 +2,7 @@ package pl.wojtach.listazakupow.list
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE
 import pl.wojtach.listazakupow.database.DbContract
 import pl.wojtach.listazakupow.database.DbHelper
 
@@ -10,7 +11,12 @@ import pl.wojtach.listazakupow.database.DbHelper
  */
 fun saveShoppingListToSQL(context: Context, shoppingList: ShoppingList) = DbHelper(context)
         .writableDatabase
-        .insert(DbContract.ShoppingListsTable.name, null, getContentValues(shoppingList))
+        .insertWithOnConflict(
+                DbContract.ShoppingListsTable.name,
+                null,
+                getContentValues(shoppingList),
+                CONFLICT_REPLACE
+        )
 
 private fun getContentValues(shoppingList: ShoppingList): ContentValues =
         ContentValues().apply {

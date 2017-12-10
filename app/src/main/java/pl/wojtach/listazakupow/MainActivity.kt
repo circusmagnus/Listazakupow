@@ -9,7 +9,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import pl.wojtach.listazakupow.database.DbHelper
 import pl.wojtach.listazakupow.list.*
 
-
 class MainActivity : AppCompatActivity() {
 
     private var mTextMessage: TextView? = null
@@ -32,13 +31,8 @@ class MainActivity : AppCompatActivity() {
         false
     }
 
-    private val addNewShoppingListProcedure =
-            getShoppingLists { shoppingListsTable.adapter.shoppingLists }
-                    .mutate { addNewShoppingList(it) }
-                    .act { saveShoppingLists(data = it, context = applicationContext) }
-                    .act { drawListView(shoppingLists = it, view = shoppingListsTable) }
-
-    private val addShoppingListButtonListener = View.OnClickListener { _ -> addNewShoppingListProcedure() }
+    private val addShoppingListButtonListener =
+            View.OnClickListener { _ -> onAddNewShoppingList(shoppingListsTable, applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,13 +42,13 @@ class MainActivity : AppCompatActivity() {
         val navigation = findViewById<TextView>(R.id.navigation) as BottomNavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        val testShoppingList = ShoppingList(name = "testowa", timestamp = System.currentTimeMillis())
-
-        saveShoppingListToSQL(applicationContext, testShoppingList)
-
         getShoppingLists { getAllShoppingListsFromSQLite(applicationContext) }
                 .act { drawListView(shoppingLists = it, view = shoppingListsTable) }
                 .let { if (isFinishing.not()) it.invoke() }
+
+        addNewShoppingListButton
+                .setOnClickListener{ _ ->
+                    onAddNewShoppingList(shoppingListsTable, applicationContext).invoke()}
 
     }
 

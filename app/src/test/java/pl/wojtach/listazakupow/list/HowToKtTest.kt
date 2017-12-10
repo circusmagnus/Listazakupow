@@ -43,7 +43,7 @@ class HowToKtTest {
         val expectedName = "Lista zakupów"
         val expectedTimestamp = 666L
 
-        addNewShoppingList(oldData = testList, timestamp = expectedTimestamp) shouldEqual listOf(
+        addNewShoppingList(oldData = testList, timeProvider = { expectedTimestamp }) shouldEqual listOf(
                 ShoppingList(name = expectedName, timestamp = expectedTimestamp),
                 testList.first()
         )
