@@ -1,5 +1,6 @@
 package pl.wojtach.listazakupow.list
 
+import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldEqual
 import org.junit.Before
 import org.junit.Test
@@ -34,6 +35,13 @@ class DbReadersKtTest {
     fun getShoppingListByIdFromSQLIte_returnsCorrectShoppingList_ifPresent() {
         val result = getShoppingListByIdFromSQLIte(RuntimeEnvironment.application, 3L)
         result shouldEqual shoppingList_3
+
+    }
+
+    @Test
+    fun getShoppingListByIdFromSQLIte_returnsNull_ifElementNotPresent() {
+        val result = getShoppingListByIdFromSQLIte(RuntimeEnvironment.application, 6L)
+        result shouldBe null
 
     }
 

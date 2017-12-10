@@ -22,9 +22,9 @@ fun drawSmallShoppingListView(shoppingList: ShoppingList, view: ShoppingListSmal
             date.setText(SimpleDateFormat("dd-MM-yyyy").format(Date(shoppingList.timestamp)))
         }
 
-fun addNewShoppingList(oldData: List<ShoppingList>) = ShoppingList(
+fun addNewShoppingList(oldData: List<ShoppingList>, timestamp: Long = System.currentTimeMillis()) = ShoppingList(
         name = "Lista zakupów",
-        timestamp = System.currentTimeMillis()
+        timestamp = timestamp
 ).let { listOf(it) + oldData }
 
 fun saveShoppingLists(context: Context, data: List<ShoppingList>) =
