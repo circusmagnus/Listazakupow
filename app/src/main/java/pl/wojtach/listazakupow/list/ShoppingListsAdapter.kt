@@ -18,9 +18,8 @@ class ShoppingListsAdapter(var shoppingLists: List<ShoppingList>)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingListHolder =
             LayoutInflater.from(parent.context)
-                    .inflate(R.layout.shopping_list_item_view, parent)
-                    .let { it as ShoppingListSmallView }
-                    .let { ShoppingListHolder(it) }
+                    .inflate(R.layout.shopping_list_small_card, parent, false)
+                    .let { ShoppingListHolder(it as ShoppingListSmallView) }
 
 
     override fun getItemCount(): Int = shoppingLists.size

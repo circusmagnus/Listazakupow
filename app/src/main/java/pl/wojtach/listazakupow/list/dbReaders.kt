@@ -22,7 +22,7 @@ private val shoppingItemsProjection = arrayOf(
         shoppingListId
 )
 
-private val selectAllShoppingLists = "SELECT * FROM ${DbContract.ShoppingListsTable} ORDER BY $timestamp"
+private val selectAllShoppingLists = "SELECT * FROM ${DbContract.ShoppingListsTable.name} ORDER BY $timestamp"
 
 fun getAllShoppingListsFromSQLite(context: Context): List<ShoppingList> = DbHelper(context).readableDatabase
         .rawQuery(selectAllShoppingLists, null)
