@@ -7,7 +7,8 @@ import android.view.View
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import pl.wojtach.listazakupow.database.DbHelper
-import pl.wojtach.listazakupow.list.*
+import pl.wojtach.listazakupow.list.onActivityCreate
+import pl.wojtach.listazakupow.list.onAddNewShoppingList
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,9 +43,7 @@ class MainActivity : AppCompatActivity() {
         val navigation = findViewById<TextView>(R.id.navigation) as BottomNavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        getShoppingLists { getAllShoppingListsFromSQLite(applicationContext) }
-                .act { drawListView(shoppingLists = it, view = shoppingListsTable) }
-                .let { if (isFinishing.not()) it.invoke() }
+        onActivityCreate(this, shoppingListsTable).invoke()
 
         addNewShoppingListButton
                 .setOnClickListener{ _ ->

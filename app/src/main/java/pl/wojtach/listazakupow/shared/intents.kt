@@ -1,17 +1,17 @@
-package pl.wojtach.listazakupow.list
+package pl.wojtach.listazakupow.shared
 
 /**
  * Created by Lukasz on 09.12.2017.
  */
-typealias GetShoppingLists = () -> List<ShoppingList>
+typealias StateProvider<T> = () -> T
 
-fun getShoppingLists(howToGet: () -> List<ShoppingList>): GetShoppingLists = { howToGet() }
+fun <T>getInitialState(howToGet: () -> T): StateProvider<T> = { howToGet() }
 
-fun GetShoppingLists.mutate(howToMutate: (List<ShoppingList>) -> List<ShoppingList>): GetShoppingLists =
+fun <T> StateProvider<T>.mutate(howToMutate: (T) -> T): StateProvider<T> =
         { howToMutate(this()) }
 
-fun GetShoppingLists.act(howToDraw: (List<ShoppingList>) -> Unit): GetShoppingLists =
-        { this().also { howToDraw(this()) } }
+fun <T> StateProvider<T>.use(howToUse: (T) -> Unit): StateProvider<T> =
+        { this().also { howToUse(this()) } }
 
 //fun GetShoppingLists.filter(howToFilter: (List<ShoppingList>) -> Boolean) :GetShoppingLists =
 //        { if(howToFilter(this())) this() else emptyList<ShoppingList>()}
