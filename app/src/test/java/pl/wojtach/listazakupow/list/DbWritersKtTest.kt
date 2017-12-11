@@ -18,9 +18,9 @@ class DbWritersKtTest {
 
     @Test
     fun saveShoppingListToSQL_savesElement_whichCanBeRetrievedAfterwards() {
-        saveShoppingListToSQL(RuntimeEnvironment.application, itemToSave)
-        val result = getShoppingListByIdFromSQLIte(RuntimeEnvironment.application, itemToSave.timestamp)
-        result shouldEqual itemToSave
+        val expectedItemFromDb = itemToSave.copy(id = saveShoppingListToSQL(RuntimeEnvironment.application, itemToSave))
+        val result = getShoppingListByIdFromSQLIte(RuntimeEnvironment.application, expectedItemFromDb.id)
+        result shouldEqual expectedItemFromDb
     }
 
 }

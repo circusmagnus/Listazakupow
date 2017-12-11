@@ -1,7 +1,7 @@
 package pl.wojtach.listazakupow.details
 
 import android.content.Context
-import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 
 /**
@@ -12,5 +12,5 @@ interface ShoppingDetailsView {
     val shoppingListName: TextView
     val shoppingListDate: TextView
     val shoppingListItems: ShoppingDetailsRecycler
-    val addNewShoppingItemButton: Button
+    val addNewShoppingItemButton: ImageButton
 }

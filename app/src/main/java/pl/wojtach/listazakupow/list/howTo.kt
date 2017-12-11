@@ -34,7 +34,7 @@ fun addNewShoppingList(oldData: List<ShoppingList>, timestamp: Long) = ShoppingL
 ).let { listOf(it) + oldData }
 
 fun saveShoppingLists(context: Context, data: List<ShoppingList>) =
-        data.forEach { saveShoppingListToSQL(context, it) }
+        data.map { it.copy(id = saveShoppingListToSQL(context, it)) }
 
 fun startShoppingListDetailsActivity(listId: Long, activity: Activity) =
         Intent(activity, ShoppingDetailsActivity::class.java)

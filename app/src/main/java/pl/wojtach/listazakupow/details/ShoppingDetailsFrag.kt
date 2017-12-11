@@ -6,10 +6,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import kotlinx.android.synthetic.main.fragment_shopping_list_details.*
-
 import pl.wojtach.listazakupow.R
 
 class ShoppingDetailsFrag : Fragment(), ShoppingDetailsView {
@@ -26,8 +25,8 @@ class ShoppingDetailsFrag : Fragment(), ShoppingDetailsView {
     override val shoppingListItems: ShoppingDetailsRecycler
         get() = shopping_items_list
 
-    override val addNewShoppingItemButton: Button
-        get() = addNewShoppingItemButton
+    override val addNewShoppingItemButton: ImageButton
+        get() = add_new_shopping_item_button
 
     private var selectedShoppingListId: Long = -1
 
@@ -36,10 +35,8 @@ class ShoppingDetailsFrag : Fragment(), ShoppingDetailsView {
     override fun onCreateView(
             inflater: LayoutInflater?,
             container: ViewGroup?,
-            savedInstanceState: Bundle?): View? {
-        val rootView = inflater?.inflate(R.layout.fragment_shopping_list_details, container, false)
-        return rootView
-    }
+            savedInstanceState: Bundle?): View? =
+            inflater?.inflate(R.layout.fragment_shopping_list_details, container, false)
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
