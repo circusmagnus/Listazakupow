@@ -6,10 +6,9 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
-import pl.wojtach.listazakupow.shared.getAllShoppingListsFromSQLite
-import pl.wojtach.listazakupow.shared.getShoppingListByIdFromSQLIte
-import pl.wojtach.listazakupow.shared.saveShoppingListToSqlDb
+import org.robolectric.RuntimeEnvironment.application
+import pl.wojtach.listazakupow.details.ShoppingItem
+import pl.wojtach.listazakupow.shared.*
 
 /**
  * Created by Lukasz on 10.12.2017.
@@ -18,34 +17,46 @@ import pl.wojtach.listazakupow.shared.saveShoppingListToSqlDb
 @RunWith(RobolectricTestRunner::class)
 class DbReadersKtTest {
 
-    val shoppingList_1 = ShoppingList(name = "1", timestamp = 1, isArchived = false)
-    val shoppingList_2 = ShoppingList(name = "2", timestamp = 2, isArchived = true)
-    val shoppingList_3 = ShoppingList(name = "3", timestamp = 3, isArchived = false)
+    val shoppingList_1 = ShoppingList(id = 1, name = "1", timestamp = 1, isArchived = false)
+    val shoppingList_2 = ShoppingList(id = 2, name = "2", timestamp = 2, isArchived = true)
+    val shoppingList_3 = ShoppingList(id = 3, name = "3", timestamp = 3, isArchived = false)
+
+    val shoppingItem_1 = ShoppingItem(shoppingListId = 3, item = "")
+    val shoppingItem_2 = ShoppingItem(shoppingListId = 3, item = "")
+    val shoppingItem_3 = ShoppingItem(shoppingListId = 2, item = "")
 
     @Before
     fun setup() {
         listOf(shoppingList_2, shoppingList_1, shoppingList_3)
-                .forEach { saveShoppingListToSqlDb(RuntimeEnvironment.application, it) }
+                .forEach { saveShoppingListToSqlDb(application, it) }
+        listOf(shoppingItem_1, shoppingItem_2, shoppingItem_3)
+                .forEach { saveShoppingItemToSqlDb(application, it) }
     }
 
     @Test
     fun getAllShoppingListsFromSQLite_returnsAllElements_newestFirst() {
-        val result = getAllShoppingListsFromSQLite(RuntimeEnvironment.application)
+        val result = getAllShoppingListsFromSQLite(application)
         result shouldEqual listOf(shoppingList_3, shoppingList_2, shoppingList_1)
     }
 
     @Test
     fun getShoppingListByIdFromSQLIte_returnsCorrectShoppingList_ifPresent() {
-        val result = getShoppingListByIdFromSQLIte(RuntimeEnvironment.application, 3L)
+        val result = getShoppingListByIdFromSQLIte(application, 3L)
         result shouldEqual shoppingList_3
 
     }
 
     @Test
     fun getShoppingListByIdFromSQLIte_returnsNull_ifElementNotPresent() {
-        val result = getShoppingListByIdFromSQLIte(RuntimeEnvironment.application, 6L)
+        val result = getShoppingListByIdFromSQLIte(application, 6L)
         result shouldBe null
 
+    }
+
+    @Test
+    fun getShoppingItemsForId_returnsAllItemsForSpecifiedList() {
+        val result = getShoppingItemsForId(shoppingList_3.id, application)
+        result shouldEqual listOf(shoppingItem_1, shoppingItem_2)
     }
 
 }

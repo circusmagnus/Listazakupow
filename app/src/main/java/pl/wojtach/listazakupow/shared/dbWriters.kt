@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE
+import android.provider.BaseColumns
 import pl.wojtach.listazakupow.database.DbContract
 import pl.wojtach.listazakupow.database.DbHelper
 import pl.wojtach.listazakupow.details.ShoppingItem
@@ -41,6 +42,7 @@ fun SQLiteDatabase.saveInTransaction(operation: (SQLiteDatabase) -> Long): Long 
 
 private fun getContentValuesForList(shoppingList: ShoppingList): ContentValues =
         ContentValues().apply {
+            shoppingList.id.takeUnless { it == -1L }.let { put(BaseColumns._ID, it) }
             put(DbContract.ShoppingListsTable.Columns.name, shoppingList.name)
             put(DbContract.ShoppingListsTable.Columns.timestamp, shoppingList.timestamp)
             put(DbContract.ShoppingListsTable.Columns.isArchived, shoppingList.isArchived)
