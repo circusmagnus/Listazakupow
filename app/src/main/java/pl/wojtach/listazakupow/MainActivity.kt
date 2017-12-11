@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val addShoppingListButtonListener =
-            View.OnClickListener { _ -> onAddNewShoppingList(shoppingListsTable, applicationContext) }
+            View.OnClickListener { _ -> onAddNewShoppingList(shoppingListsTable, this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         addNewShoppingListButton
                 .setOnClickListener{ _ ->
-                    onAddNewShoppingList(shoppingListsTable, applicationContext).invoke()}
+                    onAddNewShoppingList(shoppingListsTable, this).invoke()}
 
     }
 

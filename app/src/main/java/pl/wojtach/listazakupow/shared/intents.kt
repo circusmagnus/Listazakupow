@@ -11,7 +11,7 @@ fun <T> StateProvider<T>.mutate(howToMutate: (T) -> T): StateProvider<T> =
         { howToMutate(this()) }
 
 fun <T> StateProvider<T>.use(howToUse: (T) -> Unit): StateProvider<T> =
-        { this().also { howToUse(this()) } }
+        this.also { howToUse(it.invoke()) }
 
 //fun GetShoppingLists.filter(howToFilter: (List<ShoppingList>) -> Boolean) :GetShoppingLists =
 //        { if(howToFilter(this())) this() else emptyList<ShoppingList>()}

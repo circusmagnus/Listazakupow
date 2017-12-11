@@ -14,11 +14,11 @@ interface ListAdapter<ITEM>{
     val items: MutableList<ITEM>
 }
 
-class ShoppingItemsAdapter(val items: List<String>
+class ShoppingItemsAdapter(var items: List<ShoppingItem>
 ) : RecyclerView.Adapter<ShoppingItemHolder>() {
 
     override fun onBindViewHolder(holder: ShoppingItemHolder, position: Int) {
-        holder.view.shopping_item.text = items[position]
+        holder.view.shopping_item.text = items[position].item
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingItemHolder =

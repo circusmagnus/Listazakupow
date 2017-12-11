@@ -1,10 +1,11 @@
-package pl.wojtach.listazakupow.list
+package pl.wojtach.listazakupow.shared
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE
 import pl.wojtach.listazakupow.database.DbContract
 import pl.wojtach.listazakupow.database.DbHelper
+import pl.wojtach.listazakupow.list.ShoppingList
 
 /**
  * Created by Lukasz on 09.12.2017.

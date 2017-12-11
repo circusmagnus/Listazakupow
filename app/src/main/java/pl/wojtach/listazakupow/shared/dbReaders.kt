@@ -1,28 +1,20 @@
-package pl.wojtach.listazakupow.list
+package pl.wojtach.listazakupow.shared
 
 import android.content.Context
 import android.database.Cursor
 import android.provider.BaseColumns
 import pl.wojtach.listazakupow.database.DbContract
-import pl.wojtach.listazakupow.database.DbContract.ShoppingItemsTable.Columns.shoppingItem
-import pl.wojtach.listazakupow.database.DbContract.ShoppingItemsTable.Columns.shoppingListId
 import pl.wojtach.listazakupow.database.DbContract.ShoppingListsTable.Columns.name
 import pl.wojtach.listazakupow.database.DbContract.ShoppingListsTable.Columns.timestamp
 import pl.wojtach.listazakupow.database.DbHelper
+import pl.wojtach.listazakupow.details.ShoppingItem
+import pl.wojtach.listazakupow.list.ShoppingList
 
 private val shoppingListsProjection = arrayOf(
         BaseColumns._ID,
         name,
         timestamp
 )
-
-private val shoppingItemsProjection = arrayOf(
-        BaseColumns._ID,
-        shoppingItem,
-        shoppingListId
-)
-
-private val selectAllShoppingLists = "SELECT * FROM ${DbContract.ShoppingListsTable.name} ORDER BY $timestamp"
 
 fun getAllShoppingListsFromSQLite(context: Context): List<ShoppingList> = DbHelper(context).readableDatabase
         .query(DbContract.ShoppingListsTable.name,
@@ -44,10 +36,10 @@ fun getShoppingListByIdFromSQLIte(context: Context, id: Long): ShoppingList? = D
                 null,
                 null,
                 null
-        ).let { mapToEntities(it) }
+        ).let { mapToShoppingLists(it) }
         .firstOrNull()
 
-private fun mapToEntities(cursor: Cursor): List<ShoppingList> {
+private fun mapToShoppingLists(cursor: Cursor): List<ShoppingList> {
     tailrec fun addToList(list: MutableList<ShoppingList>): MutableList<ShoppingList> =
             if (!cursor.moveToNext()) list
             else {
@@ -61,4 +53,35 @@ private fun mapToEntities(cursor: Cursor): List<ShoppingList> {
 }
 
 private fun getIndex(columnName: String, cursor: Cursor) = cursor.getColumnIndexOrThrow(columnName)
+
+private val shoppingItemsProjection = arrayOf(
+        BaseColumns._ID,
+        DbContract.ShoppingItemsTable.Columns.shoppingItem,
+        DbContract.ShoppingItemsTable.Columns.shoppingListId
+)
+
+fun getShoppingItemsForId(id: Long, appContext: Context) = DbHelper(appContext).readableDatabase
+        .query(
+                DbContract.ShoppingItemsTable.name,
+                shoppingItemsProjection,
+                "${DbContract.ShoppingItemsTable.Columns.shoppingListId} =?",
+                arrayOf(id.toString()),
+                null,
+                null,
+                null
+        ).let { mapToShoppingItems(it) }
+
+private fun mapToShoppingItems(cursor: Cursor): List<ShoppingItem> {
+    tailrec fun addToList(list: MutableList<ShoppingItem>): MutableList<ShoppingItem> =
+            if (!cursor.moveToNext()) list
+            else {
+                list.add(ShoppingItem(
+                        shoppingListId = cursor.getLong(getIndex(DbContract.ShoppingItemsTable.Columns.shoppingListId, cursor)),
+                        item = cursor.getString(getIndex(DbContract.ShoppingItemsTable.Columns.shoppingItem, cursor))
+                ))
+                addToList(list)
+            }
+    return addToList(mutableListOf()).also { cursor.close() }
+}
+
 

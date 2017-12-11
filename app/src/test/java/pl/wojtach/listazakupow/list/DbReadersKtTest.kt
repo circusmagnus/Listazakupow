@@ -7,6 +7,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
+import pl.wojtach.listazakupow.shared.getAllShoppingListsFromSQLite
+import pl.wojtach.listazakupow.shared.getShoppingListByIdFromSQLIte
+import pl.wojtach.listazakupow.shared.saveShoppingListToSQL
 
 /**
  * Created by Lukasz on 10.12.2017.

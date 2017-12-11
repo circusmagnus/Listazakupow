@@ -1,8 +1,11 @@
 package pl.wojtach.listazakupow.list
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import kotlinx.android.synthetic.main.shopping_list_item_view.view.*
+import pl.wojtach.listazakupow.details.ShoppingDetailsActivity
+import pl.wojtach.listazakupow.shared.saveShoppingListToSQL
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,6 +34,7 @@ fun addNewShoppingList(oldData: List<ShoppingList>, timestamp: Long = System.cur
 fun saveShoppingLists(context: Context, data: List<ShoppingList>) =
         data.forEach { saveShoppingListToSQL(context, it) }
 
-fun startShoppingListDetailsActivity(listId: Long, context: Context) =
-        Intent().apply { putExtra(shoppingListIdKey, listId) }
-                .let { context.startActivity(it) }
+fun startShoppingListDetailsActivity(listId: Long, activity: Activity) =
+        Intent(activity, ShoppingDetailsActivity::class.java)
+                .apply { putExtra(shoppingListIdKey, listId) }
+                .let { activity.startActivity(it) }
