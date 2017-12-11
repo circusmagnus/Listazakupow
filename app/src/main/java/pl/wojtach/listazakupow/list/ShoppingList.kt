@@ -5,7 +5,7 @@ package pl.wojtach.listazakupow.list
  */
 data class ShoppingList(
         val name: String,
-        val timestamp: Long
-//        val shoppingItems: List<String>
+        val timestamp: Long,
+        val isArchived: Boolean
 )
 

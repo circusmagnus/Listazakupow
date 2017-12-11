@@ -15,7 +15,9 @@ import org.robolectric.RuntimeEnvironment
 @RunWith(RobolectricTestRunner::class)
 class HowToKtTest {
 
-    private val testList = listOf(ShoppingList(name = "test", timestamp = 1512941251000))
+    private val testList = listOf(
+            ShoppingList(name = "test", timestamp = 1512941251000, isArchived = false)
+    )
 
     @Test
     fun drawListView_setsProperListInAdapter() {
@@ -43,8 +45,8 @@ class HowToKtTest {
         val expectedName = "Lista zakupów"
         val expectedTimestamp = 666L
 
-        addNewShoppingList(oldData = testList, timeProvider = { expectedTimestamp }) shouldEqual listOf(
-                ShoppingList(name = expectedName, timestamp = expectedTimestamp),
+        addNewShoppingList(oldData = testList, timestamp = expectedTimestamp) shouldEqual listOf(
+                ShoppingList(name = expectedName, timestamp = expectedTimestamp, isArchived = false),
                 testList.first()
         )
     }

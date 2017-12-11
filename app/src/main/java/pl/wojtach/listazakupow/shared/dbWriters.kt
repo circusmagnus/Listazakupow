@@ -23,4 +23,5 @@ private fun getContentValues(shoppingList: ShoppingList): ContentValues =
         ContentValues().apply {
             put(DbContract.ShoppingListsTable.Columns.name, shoppingList.name)
             put(DbContract.ShoppingListsTable.Columns.timestamp, shoppingList.timestamp)
+            put(DbContract.ShoppingListsTable.Columns.isArchived, shoppingList.isArchived)
         }

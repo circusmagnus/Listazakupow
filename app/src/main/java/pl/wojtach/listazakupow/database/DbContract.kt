@@ -3,7 +3,7 @@ package pl.wojtach.listazakupow.database
 import android.provider.BaseColumns
 
 object DbContract {
-    val DATABASE_VERSION = 1
+    val DATABASE_VERSION = 2
     val DATABASE_NAME = "ListaZakupow.db"
 
     object ShoppingListsTable {
@@ -12,6 +12,7 @@ object DbContract {
         object Columns : BaseColumns {
             val timestamp = "timestamp"
             val name = "name"
+            val isArchived = "isArchived"
         }
     }
 

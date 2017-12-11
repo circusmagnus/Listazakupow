@@ -8,7 +8,7 @@ import pl.wojtach.listazakupow.shared.use
 
 fun onCreate(view: ShoppingDetailsView, appContext: Context, id: Long) =
         getInitialState { ShoppingDetailsState(
-                getShoppingListByIdFromSQLIte(appContext, id)!!,
-                getShoppingItemsForId(id, appContext)
+                shoppingList = getShoppingListByIdFromSQLIte(appContext, id)!!,
+                shoppingItems = getShoppingItemsForId(id, appContext)
         ) }
-                .use { drawDetailsView(it, view) }
+                .use { it.draw(view) }

@@ -14,7 +14,7 @@ import pl.wojtach.listazakupow.shared.saveShoppingListToSQL
 @RunWith(RobolectricTestRunner::class)
 class DbWritersKtTest {
 
-    private val itemToSave = ShoppingList(name = "test", timestamp = 6)
+    private val itemToSave = ShoppingList(name = "test", timestamp = 6, isArchived = true)
 
     @Test
     fun saveShoppingListToSQL_savesElement_whichCanBeRetrievedAfterwards() {

@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.BaseColumns
 import pl.wojtach.listazakupow.database.DbContract
+import pl.wojtach.listazakupow.database.DbContract.ShoppingListsTable.Columns.isArchived
 import pl.wojtach.listazakupow.database.DbContract.ShoppingListsTable.Columns.name
 import pl.wojtach.listazakupow.database.DbContract.ShoppingListsTable.Columns.timestamp
 import pl.wojtach.listazakupow.database.DbHelper
@@ -13,7 +14,8 @@ import pl.wojtach.listazakupow.list.ShoppingList
 private val shoppingListsProjection = arrayOf(
         BaseColumns._ID,
         name,
-        timestamp
+        timestamp,
+        isArchived
 )
 
 fun getAllShoppingListsFromSQLite(context: Context): List<ShoppingList> = DbHelper(context).readableDatabase
@@ -25,7 +27,7 @@ fun getAllShoppingListsFromSQLite(context: Context): List<ShoppingList> = DbHelp
                 null,
                 "$timestamp DESC"
         )
-        .let { mapToEntities(it) }
+        .let { mapToShoppingLists(it) }
 
 fun getShoppingListByIdFromSQLIte(context: Context, id: Long): ShoppingList? = DbHelper(context).readableDatabase
         .query(
@@ -45,7 +47,8 @@ private fun mapToShoppingLists(cursor: Cursor): List<ShoppingList> {
             else {
                 list.add(ShoppingList(
                         name = cursor.getString(getIndex(name, cursor)),
-                        timestamp = cursor.getLong(getIndex(timestamp, cursor))
+                        timestamp = cursor.getLong(getIndex(timestamp, cursor)),
+                        isArchived = cursor.getInt(getIndex(isArchived, cursor)) == 1
                 ))
                 addToList(list)
             }

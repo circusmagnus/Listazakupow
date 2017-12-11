@@ -18,9 +18,9 @@ import pl.wojtach.listazakupow.shared.saveShoppingListToSQL
 @RunWith(RobolectricTestRunner::class)
 class DbReadersKtTest {
 
-    val shoppingList_1 = ShoppingList(name = "1", timestamp = 1)
-    val shoppingList_2 = ShoppingList(name = "2", timestamp = 2)
-    val shoppingList_3 = ShoppingList(name = "3", timestamp = 3)
+    val shoppingList_1 = ShoppingList(name = "1", timestamp = 1, isArchived = false)
+    val shoppingList_2 = ShoppingList(name = "2", timestamp = 2, isArchived = true)
+    val shoppingList_3 = ShoppingList(name = "3", timestamp = 3, isArchived = false)
 
     @Before
     fun setup() {

@@ -3,7 +3,7 @@ package pl.wojtach.listazakupow.list
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import kotlinx.android.synthetic.main.shopping_list_item_view.view.*
+import kotlinx.android.synthetic.main.shopping_list_small_card.view.*
 import pl.wojtach.listazakupow.details.ShoppingDetailsActivity
 import pl.wojtach.listazakupow.shared.saveShoppingListToSQL
 import java.text.SimpleDateFormat
@@ -28,7 +28,8 @@ fun drawSmallShoppingListView(shoppingList: ShoppingList, view: ShoppingListSmal
 
 fun addNewShoppingList(oldData: List<ShoppingList>, timestamp: Long = System.currentTimeMillis() ) = ShoppingList(
         name = "Lista zakupów",
-        timestamp = timestamp
+        timestamp = timestamp,
+        isArchived = false
 ).let { listOf(it) + oldData }
 
 fun saveShoppingLists(context: Context, data: List<ShoppingList>) =
