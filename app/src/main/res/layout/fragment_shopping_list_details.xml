@@ -7,7 +7,7 @@
     tools:context="pl.wojtach.listazakupow.details.ShoppingDetailsFrag">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <EditText
         android:id="@+id/details_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/details_date" />
 
-    <TextView
+    <EditText
         android:id="@+id/details_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
         tools:listitem="@layout/shopping_item" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/addNewShoppingItemButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"

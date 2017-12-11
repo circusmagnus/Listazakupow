@@ -24,7 +24,7 @@ class DbHelper(context: Context)
                         + " ("
                         + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                         + DbContract.ShoppingItemsTable.Columns.shoppingListId + " INTEGER NOT NULL,"
-                        + DbContract.ShoppingListsTable.Columns.name + " TEXT"
+                        + DbContract.ShoppingItemsTable.Columns.shoppingItem + " TEXT"
                         + ");"
                 )
     }
@@ -37,5 +37,7 @@ class DbHelper(context: Context)
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS " + DbContract.ShoppingListsTable.name)
         db.execSQL("DROP TABLE IF EXISTS " + DbContract.ShoppingItemsTable.name)
+        db.execSQL(createShoppingListTableStatement)
+        db.execSQL(createShoppingItemsTableStatement)
     }
 }

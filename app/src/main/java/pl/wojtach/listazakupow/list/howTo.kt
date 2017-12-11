@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import kotlinx.android.synthetic.main.shopping_list_small_card.view.*
 import pl.wojtach.listazakupow.details.ShoppingDetailsActivity
+import pl.wojtach.listazakupow.details.shoppingListIdKey
 import pl.wojtach.listazakupow.shared.saveShoppingListToSQL
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,7 +27,7 @@ fun drawSmallShoppingListView(shoppingList: ShoppingList, view: ShoppingListSmal
             date.setText(SimpleDateFormat("dd-MM-yyyy").format(Date(shoppingList.timestamp)))
         }
 
-fun addNewShoppingList(oldData: List<ShoppingList>, timestamp: Long = System.currentTimeMillis() ) = ShoppingList(
+fun addNewShoppingList(oldData: List<ShoppingList>, timestamp: Long) = ShoppingList(
         name = "Lista zakupów",
         timestamp = timestamp,
         isArchived = false

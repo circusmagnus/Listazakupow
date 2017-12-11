@@ -3,6 +3,7 @@ package pl.wojtach.listazakupow.shared
 import android.content.Context
 import android.database.Cursor
 import android.provider.BaseColumns
+import android.util.Log
 import pl.wojtach.listazakupow.database.DbContract
 import pl.wojtach.listazakupow.database.DbContract.ShoppingListsTable.Columns.isArchived
 import pl.wojtach.listazakupow.database.DbContract.ShoppingListsTable.Columns.name
@@ -33,12 +34,13 @@ fun getShoppingListByIdFromSQLIte(context: Context, id: Long): ShoppingList? = D
         .query(
                 DbContract.ShoppingListsTable.name,
                 shoppingListsProjection,
-                "$timestamp =?",
+                "${BaseColumns._ID} =?",
                 arrayOf(id.toString()),
                 null,
                 null,
                 null
-        ).let { mapToShoppingLists(it) }
+        ).also { Log.d("getListById", "$id") }
+        .let { mapToShoppingLists(it) }
         .firstOrNull()
 
 private fun mapToShoppingLists(cursor: Cursor): List<ShoppingList> {
@@ -46,6 +48,7 @@ private fun mapToShoppingLists(cursor: Cursor): List<ShoppingList> {
             if (!cursor.moveToNext()) list
             else {
                 list.add(ShoppingList(
+                        id = cursor.getLong(getIndex(BaseColumns._ID, cursor)),
                         name = cursor.getString(getIndex(name, cursor)),
                         timestamp = cursor.getLong(getIndex(timestamp, cursor)),
                         isArchived = cursor.getInt(getIndex(isArchived, cursor)) == 1

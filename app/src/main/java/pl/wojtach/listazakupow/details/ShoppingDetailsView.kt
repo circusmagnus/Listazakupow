@@ -1,8 +1,7 @@
 package pl.wojtach.listazakupow.details
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
-import android.widget.ListAdapter
+import android.widget.Button
 import android.widget.TextView
 
 /**
@@ -13,4 +12,5 @@ interface ShoppingDetailsView {
     val shoppingListName: TextView
     val shoppingListDate: TextView
     val shoppingListItems: ShoppingDetailsRecycler
+    val addNewShoppingItemButton: Button
 }

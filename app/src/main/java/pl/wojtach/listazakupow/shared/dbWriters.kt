@@ -12,12 +12,15 @@ import pl.wojtach.listazakupow.list.ShoppingList
  */
 fun saveShoppingListToSQL(context: Context, shoppingList: ShoppingList) = DbHelper(context)
         .writableDatabase
-        .insertWithOnConflict(
+        .also { it.beginTransaction() }
+        .also { it.insertWithOnConflict(
                 DbContract.ShoppingListsTable.name,
                 null,
                 getContentValues(shoppingList),
                 CONFLICT_REPLACE
-        )
+        ) }.also { it.setTransactionSuccessful() }
+        .also { it.endTransaction() }
+
 
 private fun getContentValues(shoppingList: ShoppingList): ContentValues =
         ContentValues().apply {

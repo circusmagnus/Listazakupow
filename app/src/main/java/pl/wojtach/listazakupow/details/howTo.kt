@@ -1,6 +1,9 @@
 package pl.wojtach.listazakupow.details
 
+import android.content.Context
 import pl.wojtach.listazakupow.list.ShoppingList
+import pl.wojtach.listazakupow.shared.getShoppingItemsForId
+import pl.wojtach.listazakupow.shared.getShoppingListByIdFromSQLIte
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -10,3 +13,20 @@ fun drawDetailsView(shoppingList: ShoppingList, shoppingItems: List<ShoppingItem
             shoppingListDate.text =  SimpleDateFormat("dd-MM-yyyy").format(Date(shoppingList.timestamp))
             shoppingListItems.adapter.items = shoppingItems
         }
+
+fun createShoppingDetailsState(appContext: Context, shoppingListId: Long): ShoppingDetailsState =
+        getShoppingListByIdFromSQLIte(appContext, shoppingListId)
+                .let {
+                    when {
+                        it == null -> NonExistingShoppingDetailsState()
+                        it.isArchived -> ArchivedShoppingDetailsState(
+                                it,
+                                getShoppingItemsForId(shoppingListId, appContext)
+                        )
+                        it.isArchived.not() -> EditableShoppingDetailsState(
+                                it,
+                                getShoppingItemsForId(shoppingListId, appContext)
+                        )
+                        else -> throw IllegalArgumentException("unexpected shopping list state")
+                    }
+                }

@@ -3,7 +3,7 @@ package pl.wojtach.listazakupow.database
 import android.provider.BaseColumns
 
 object DbContract {
-    val DATABASE_VERSION = 2
+    val DATABASE_VERSION = 4
     val DATABASE_NAME = "ListaZakupow.db"
 
     object ShoppingListsTable {

@@ -18,7 +18,7 @@ class ShoppingItemsAdapter(var items: List<ShoppingItem>
 ) : RecyclerView.Adapter<ShoppingItemHolder>() {
 
     override fun onBindViewHolder(holder: ShoppingItemHolder, position: Int) {
-        holder.view.shopping_item.text = items[position].item
+        holder.view.shopping_item.setText(items[position].item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingItemHolder =

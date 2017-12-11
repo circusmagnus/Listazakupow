@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import kotlinx.android.synthetic.main.fragment_shopping_list_details.*
 
@@ -25,11 +26,38 @@ class ShoppingDetailsFrag : Fragment(), ShoppingDetailsView {
     override val shoppingListItems: ShoppingDetailsRecycler
         get() = shopping_items_list
 
+    override val addNewShoppingItemButton: Button
+        get() = addNewShoppingItemButton
+
+    private var selectedShoppingListId: Long = -1
+
+    var state: ShoppingDetailsState = NonExistingShoppingDetailsState()
+
     override fun onCreateView(
             inflater: LayoutInflater?,
             container: ViewGroup?,
-            savedInstanceState: Bundle?): View? =
-            inflater?.inflate(R.layout.fragment_shopping_list_details, container, false)
+            savedInstanceState: Bundle?): View? {
+        val rootView = inflater?.inflate(R.layout.fragment_shopping_list_details, container, false)
+        return rootView
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        selectedShoppingListId = (context as? ShoppingListIdProvider)
+                ?.getSelectedShoppingListId()
+                ?: throw ClassCastException("Attaching Activity should implement ShoppingListIdProvider")
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        onFragmentViewCreated(
+                appContext = appContext,
+                view = this,
+                shoppingListId = selectedShoppingListId)
+    }
 
 
+    interface ShoppingListIdProvider{
+        fun getSelectedShoppingListId(): Long
+    }
 }

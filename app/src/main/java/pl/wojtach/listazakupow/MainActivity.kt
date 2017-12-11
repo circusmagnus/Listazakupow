@@ -3,6 +3,7 @@ package pl.wojtach.listazakupow
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -53,6 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         DbHelper(applicationContext).close()
+        Log.d(this::class.java.simpleName, "onDestroy")
         super.onDestroy()
     }
 
