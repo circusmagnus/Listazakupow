@@ -34,3 +34,13 @@ fun createShoppingDetailsState(appContext: Context, shoppingListId: Long): Shopp
 fun addNewShoppingItem(oldState: ShoppingDetailsState): EditableShoppingDetailsState =
         (oldState.shoppingItems + ShoppingItem(shoppingListId = oldState.shoppingList.id, item = "co?"))
                 .let { EditableShoppingDetailsState(oldState.shoppingList, it) }
+
+fun getShoppingListFromUI(view: ShoppingDetailsView) = ShoppingList(
+                        id = view.selectedShoppingListId,
+                        name = view.shoppingListName.text.toString(),
+                        timestamp = getTimeStampFromUI(view),
+                        isArchived = false)
+
+
+private fun getTimeStampFromUI(view: ShoppingDetailsView) =
+        view.shoppingListDate.text.toString().let { SimpleDateFormat("dd-MM-yyyy").parse(it).time }

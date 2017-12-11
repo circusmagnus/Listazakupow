@@ -1,10 +1,7 @@
 package pl.wojtach.listazakupow.details
 
 import android.content.Context
-import pl.wojtach.listazakupow.shared.compose
-import pl.wojtach.listazakupow.shared.initProcedureWith
-import pl.wojtach.listazakupow.shared.saveShoppingItemToSqlDb
-import pl.wojtach.listazakupow.shared.use
+import pl.wojtach.listazakupow.shared.*
 
 fun onFragmentViewCreated(view: ShoppingDetailsView, appContext: Context, shoppingListId: Long) =
         initProcedureWith { createShoppingDetailsState(appContext, shoppingListId) }
@@ -17,3 +14,7 @@ fun onShoppingListItemAdded(view: ShoppingDetailsView, appContext: Context, shop
                     it.shoppingItems.forEach { saveShoppingItemToSqlDb(appContext, it) }
                     it.draw(view)
                 }
+
+fun onFragmentDestroyed(view: ShoppingDetailsView, appContext: Context) =
+        initProcedureWith { getShoppingListFromUI(view) }
+                .use { saveShoppingListToSqlDb(appContext, it) }

@@ -13,4 +13,5 @@ interface ShoppingDetailsView {
     val shoppingListDate: TextView
     val shoppingListItems: ShoppingDetailsRecycler
     val addNewShoppingItemButton: ImageButton
+    val selectedShoppingListId: Long
 }

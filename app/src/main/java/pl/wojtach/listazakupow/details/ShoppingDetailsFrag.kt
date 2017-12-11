@@ -28,7 +28,8 @@ class ShoppingDetailsFrag : Fragment(), ShoppingDetailsView {
     override val addNewShoppingItemButton: ImageButton
         get() = add_new_shopping_item_button
 
-    private var selectedShoppingListId: Long = -1
+    override var selectedShoppingListId: Long = -1
+        private set
 
     var state: ShoppingDetailsState = NonExistingShoppingDetailsState()
 
@@ -53,8 +54,12 @@ class ShoppingDetailsFrag : Fragment(), ShoppingDetailsView {
                 shoppingListId = selectedShoppingListId).invoke()
     }
 
+    override fun onDestroyView() {
+        onFragmentDestroyed(this, appContext)
+        super.onDestroyView()
+    }
 
-    interface ShoppingListIdProvider{
+    interface ShoppingListIdProvider {
         fun getSelectedShoppingListId(): Long
     }
 }
