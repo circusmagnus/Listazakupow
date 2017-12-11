@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.View
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import pl.wojtach.listazakupow.database.DbHelper
@@ -33,9 +32,6 @@ class MainActivity : AppCompatActivity() {
         false
     }
 
-    private val addShoppingListButtonListener =
-            View.OnClickListener { _ -> onAddNewShoppingList(shoppingListsTable, this) }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -48,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         addNewShoppingListButton
                 .setOnClickListener{ _ ->
-                    onAddNewShoppingList(shoppingListsTable, this).invoke()}
+                    onAddNewShoppingList(shoppingListsTable, this).invoke() }
 
     }
 

@@ -50,6 +50,7 @@ private fun getContentValuesForList(shoppingList: ShoppingList): ContentValues =
 
 private fun getContentValuesForItem(shoppingItem: ShoppingItem): ContentValues =
         ContentValues().apply {
+            shoppingItem.id.takeUnless { it == -1L }.let { put(BaseColumns._ID, it) }
             put(DbContract.ShoppingItemsTable.Columns.shoppingListId, shoppingItem.shoppingListId)
             put(DbContract.ShoppingItemsTable.Columns.shoppingItem, shoppingItem.item)
         }

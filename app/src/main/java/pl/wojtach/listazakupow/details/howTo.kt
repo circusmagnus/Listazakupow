@@ -30,3 +30,7 @@ fun createShoppingDetailsState(appContext: Context, shoppingListId: Long): Shopp
                         else -> throw IllegalArgumentException("unexpected shopping list state")
                     }
                 }
+
+fun addNewShoppingItem(oldState: ShoppingDetailsState): EditableShoppingDetailsState =
+        (oldState.shoppingItems + ShoppingItem(shoppingListId = oldState.shoppingList.id, item = "co?"))
+                .let { EditableShoppingDetailsState(oldState.shoppingList, it) }

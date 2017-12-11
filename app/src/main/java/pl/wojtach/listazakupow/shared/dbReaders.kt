@@ -82,6 +82,7 @@ private fun mapToShoppingItems(cursor: Cursor): List<ShoppingItem> {
             if (!cursor.moveToNext()) list
             else {
                 list.add(ShoppingItem(
+                        id = cursor.getLong(getIndex(BaseColumns._ID, cursor)),
                         shoppingListId = cursor.getLong(getIndex(DbContract.ShoppingItemsTable.Columns.shoppingListId, cursor)),
                         item = cursor.getString(getIndex(DbContract.ShoppingItemsTable.Columns.shoppingItem, cursor))
                 ))

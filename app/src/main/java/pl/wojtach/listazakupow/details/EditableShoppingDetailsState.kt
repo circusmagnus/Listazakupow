@@ -6,10 +6,17 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 interface ShoppingDetailsState{
+    val shoppingList: ShoppingList
+    val shoppingItems: List<ShoppingItem>
     fun draw (view: ShoppingDetailsView)
 }
 
 class NonExistingShoppingDetailsState : ShoppingDetailsState {
+    override val shoppingList: ShoppingList
+        get() = throw NotImplementedError()
+    override val shoppingItems: List<ShoppingItem>
+        get() = throw NotImplementedError()
+
     override fun draw(view: ShoppingDetailsView) {
 
     }
@@ -17,9 +24,9 @@ class NonExistingShoppingDetailsState : ShoppingDetailsState {
 
 class ArchivedShoppingDetailsState(
         shoppingList: ShoppingList,
-        val shoppingItems: List<ShoppingItem>) : ShoppingDetailsState {
+        override val shoppingItems: List<ShoppingItem>) : ShoppingDetailsState {
 
-    val shoppingList = shoppingList.takeIf { it.isArchived } ?: throw IllegalArgumentException("This list is not archived")
+    override val shoppingList = shoppingList.takeIf { it.isArchived } ?: throw IllegalArgumentException("This list is not archived")
 
     override fun draw(view: ShoppingDetailsView) =
             view.apply {
@@ -35,21 +42,22 @@ class ArchivedShoppingDetailsState(
 
 class EditableShoppingDetailsState(
         shoppingList: ShoppingList,
-        val shoppingItems: List<ShoppingItem>
+        override val shoppingItems: List<ShoppingItem>
 ) : ShoppingDetailsState {
 
-    val shoppingList = shoppingList.takeUnless { it.isArchived } ?: throw IllegalArgumentException("This list is archived")
+    override val shoppingList = shoppingList.takeUnless { it.isArchived } ?: throw IllegalArgumentException("This list is archived")
 
     override fun draw(view: ShoppingDetailsView) =
         view.apply {
             shoppingListName.text = shoppingList.name
             shoppingListDate.text = SimpleDateFormat("dd-MM-yyyy").format(Date(shoppingList.timestamp))
             shoppingListItems.adapter.items = shoppingItems
+            shoppingListItems.adapter.notifyDataSetChanged()
             addNewShoppingItemButton.setOnClickListener {
                 onShoppingListItemAdded(
                         view = this,
                         appContext = this.appContext,
-                        shoppingListId = shoppingList.id) }
+                        shoppingListId = shoppingList.id).invoke() }
 
         }.let { Unit }
 

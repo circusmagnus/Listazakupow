@@ -23,7 +23,7 @@ class ShoppingItemsAdapter(var items: List<ShoppingItem>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingItemHolder =
             ShoppingItemHolder(LayoutInflater.from(parent.context).inflate(
-                    R.layout.shopping_item, parent) as ViewGroup)
+                    R.layout.shopping_item, parent, false) as ViewGroup)
 
     override fun getItemCount(): Int = items.size
 }

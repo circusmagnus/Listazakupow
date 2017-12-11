@@ -18,7 +18,7 @@ import pl.wojtach.listazakupow.shared.saveShoppingListToSqlDb
 class DbWritersKtTest {
 
     private val listToSave = ShoppingList(id = 1, name = "test", timestamp = 6, isArchived = true)
-    private val itemToSave = ShoppingItem(shoppingListId = 1, item = "")
+    private val itemToSave = ShoppingItem(id = 1, shoppingListId = 1, item = "")
 
     @Test
     fun saveShoppingListToSQL_savesElement_whichCanBeRetrievedAfterwards() {

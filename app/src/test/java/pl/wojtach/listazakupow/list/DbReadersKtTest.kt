@@ -21,9 +21,9 @@ class DbReadersKtTest {
     val shoppingList_2 = ShoppingList(id = 2, name = "2", timestamp = 2, isArchived = true)
     val shoppingList_3 = ShoppingList(id = 3, name = "3", timestamp = 3, isArchived = false)
 
-    val shoppingItem_1 = ShoppingItem(shoppingListId = 3, item = "")
-    val shoppingItem_2 = ShoppingItem(shoppingListId = 3, item = "")
-    val shoppingItem_3 = ShoppingItem(shoppingListId = 2, item = "")
+    val shoppingItem_1 = ShoppingItem(id = 1, shoppingListId = 3, item = "")
+    val shoppingItem_2 = ShoppingItem(id = 2, shoppingListId = 3, item = "")
+    val shoppingItem_3 = ShoppingItem(id = 3, shoppingListId = 2, item = "")
 
     @Before
     fun setup() {

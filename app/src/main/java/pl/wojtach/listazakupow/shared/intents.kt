@@ -5,13 +5,16 @@ package pl.wojtach.listazakupow.shared
  */
 typealias StateProvider<T> = () -> T
 
-fun <T>getInitialState(howToGet: () -> T): StateProvider<T> = { howToGet() }
+fun <T> initProcedureWith(what: () -> T): StateProvider<T> = { what() }
 
-fun <T> StateProvider<T>.mutate(howToMutate: (T) -> T): StateProvider<T> =
-        { howToMutate(this()) }
+fun <T> StateProvider<T>.compose(what: (T) -> T): StateProvider<T> =
+        { what(this()) }
 
-fun <T> StateProvider<T>.use(howToUse: (T) -> Unit): StateProvider<T> =
-        this.also { howToUse(it.invoke()) }
+fun <T> StateProvider<T>.use(how: (T) -> Unit) =
+        { how(this()) }
+
+fun <T>StateProvider<T>.filter(predicate: (T) -> Boolean): StateProvider<T>? =
+        if(predicate(this()))  { this } else null
 
 //fun GetShoppingLists.filter(howToFilter: (List<ShoppingList>) -> Boolean) :GetShoppingLists =
 //        { if(howToFilter(this())) this() else emptyList<ShoppingList>()}

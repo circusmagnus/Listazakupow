@@ -50,7 +50,7 @@ class ShoppingDetailsFrag : Fragment(), ShoppingDetailsView {
         onFragmentViewCreated(
                 appContext = appContext,
                 view = this,
-                shoppingListId = selectedShoppingListId)
+                shoppingListId = selectedShoppingListId).invoke()
     }
 
 
