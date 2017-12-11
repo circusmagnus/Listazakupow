@@ -9,7 +9,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import pl.wojtach.listazakupow.shared.getAllShoppingListsFromSQLite
 import pl.wojtach.listazakupow.shared.getShoppingListByIdFromSQLIte
-import pl.wojtach.listazakupow.shared.saveShoppingListToSQL
+import pl.wojtach.listazakupow.shared.saveShoppingListToSqlDb
 
 /**
  * Created by Lukasz on 10.12.2017.
@@ -25,7 +25,7 @@ class DbReadersKtTest {
     @Before
     fun setup() {
         listOf(shoppingList_2, shoppingList_1, shoppingList_3)
-                .forEach { saveShoppingListToSQL(RuntimeEnvironment.application, it) }
+                .forEach { saveShoppingListToSqlDb(RuntimeEnvironment.application, it) }
     }
 
     @Test

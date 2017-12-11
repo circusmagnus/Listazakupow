@@ -6,7 +6,7 @@ import android.content.Intent
 import kotlinx.android.synthetic.main.shopping_list_small_card.view.*
 import pl.wojtach.listazakupow.details.ShoppingDetailsActivity
 import pl.wojtach.listazakupow.details.shoppingListIdKey
-import pl.wojtach.listazakupow.shared.saveShoppingListToSQL
+import pl.wojtach.listazakupow.shared.saveShoppingListToSqlDb
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,7 +34,7 @@ fun addNewShoppingList(oldData: List<ShoppingList>, timestamp: Long) = ShoppingL
 ).let { listOf(it) + oldData }
 
 fun saveShoppingLists(context: Context, data: List<ShoppingList>) =
-        data.map { it.copy(id = saveShoppingListToSQL(context, it)) }
+        data.map { it.copy(id = saveShoppingListToSqlDb(context, it)) }
 
 fun startShoppingListDetailsActivity(listId: Long, activity: Activity) =
         Intent(activity, ShoppingDetailsActivity::class.java)

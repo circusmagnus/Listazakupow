@@ -23,7 +23,8 @@ class DbHelper(context: Context)
                 "CREATE TABLE " + DbContract.ShoppingItemsTable.name
                         + " ("
                         + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                        + DbContract.ShoppingItemsTable.Columns.shoppingListId + " INTEGER NOT NULL,"
+                        + DbContract.ShoppingItemsTable.Columns.shoppingListId + " INTEGER NOT NULL, "
+                        + "FOREIGN KEY (${DbContract.ShoppingItemsTable.Columns.shoppingListId}) REFERENCES ${DbContract.ShoppingListsTable.name}(${BaseColumns._ID})"
                         + DbContract.ShoppingItemsTable.Columns.shoppingItem + " TEXT"
                         + ");"
                 )
