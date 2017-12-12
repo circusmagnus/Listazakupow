@@ -8,7 +8,7 @@ import pl.wojtach.listazakupow.database.DbContract
 import pl.wojtach.listazakupow.database.DbContract.ShoppingListsTable.Columns.isArchived
 import pl.wojtach.listazakupow.database.DbContract.ShoppingListsTable.Columns.name
 import pl.wojtach.listazakupow.database.DbContract.ShoppingListsTable.Columns.timestamp
-import pl.wojtach.listazakupow.database.DbHelper
+import pl.wojtach.listazakupow.database.DbCreator
 import pl.wojtach.listazakupow.details.ShoppingItem
 import pl.wojtach.listazakupow.list.ShoppingList
 
@@ -19,7 +19,7 @@ private val shoppingListsProjection = arrayOf(
         isArchived
 )
 
-fun getAllShoppingListsFromSQLite(context: Context): List<ShoppingList> = DbHelper(context).readableDatabase
+fun getAllShoppingListsFromSQLite(context: Context): List<ShoppingList> = DbCreator(context).readableDatabase
         .query(DbContract.ShoppingListsTable.name,
                 shoppingListsProjection,
                 null,
@@ -30,7 +30,7 @@ fun getAllShoppingListsFromSQLite(context: Context): List<ShoppingList> = DbHelp
         )
         .let { mapToShoppingLists(it) }
 
-fun getShoppingListByIdFromSQLIte(context: Context, id: Long): ShoppingList? = DbHelper(context).readableDatabase
+fun getShoppingListByIdFromSQLIte(context: Context, id: Long): ShoppingList? = DbCreator(context).readableDatabase
         .query(
                 DbContract.ShoppingListsTable.name,
                 shoppingListsProjection,
@@ -68,7 +68,7 @@ private val shoppingItemsProjection = arrayOf(
 
 private val shoppingItemsIdsProjection = arrayOf(BaseColumns._ID)
 
-fun getShoppingItemsForId(id: Long, appContext: Context) = DbHelper(appContext).readableDatabase
+fun getShoppingItemsForId(id: Long, appContext: Context) = DbCreator(appContext).readableDatabase
         .query(
                 DbContract.ShoppingItemsTable.name,
                 shoppingItemsProjection,
@@ -79,7 +79,7 @@ fun getShoppingItemsForId(id: Long, appContext: Context) = DbHelper(appContext).
                 null
         ).let { mapToShoppingItems(it) }
 
-fun getShoppingItemsIds(shoppingListId: Long, appContext: Context) = DbHelper(appContext).readableDatabase
+fun getShoppingItemsIds(shoppingListId: Long, appContext: Context) = DbCreator(appContext).readableDatabase
         .query(DbContract.ShoppingItemsTable.name,
                 shoppingItemsIdsProjection,
                 "${DbContract.ShoppingItemsTable.Columns.shoppingListId} =?",

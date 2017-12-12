@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE
 import android.provider.BaseColumns
 import pl.wojtach.listazakupow.database.DbContract
-import pl.wojtach.listazakupow.database.DbHelper
+import pl.wojtach.listazakupow.database.DbCreator
 import pl.wojtach.listazakupow.details.ShoppingItem
 import pl.wojtach.listazakupow.list.ShoppingList
 
@@ -14,7 +14,7 @@ import pl.wojtach.listazakupow.list.ShoppingList
  * Created by Lukasz on 09.12.2017.
  */
 fun saveShoppingListToSqlDb(context: Context, shoppingList: ShoppingList): Long =
-        DbHelper(context).writableDatabase.insertWithOnConflict(
+        DbCreator(context).writableDatabase.insertWithOnConflict(
                     DbContract.ShoppingListsTable.name,
                     null,
                     getContentValuesForList(shoppingList),
@@ -22,7 +22,7 @@ fun saveShoppingListToSqlDb(context: Context, shoppingList: ShoppingList): Long 
             )
 
 fun saveShoppingItemToSqlDb(context: Context, shoppingItem: ShoppingItem): Long =
-        DbHelper(context).writableDatabase.insertWithOnConflict(
+        DbCreator(context).writableDatabase.insertWithOnConflict(
                     DbContract.ShoppingItemsTable.name,
                     null,
                     getContentValuesForItem(shoppingItem),

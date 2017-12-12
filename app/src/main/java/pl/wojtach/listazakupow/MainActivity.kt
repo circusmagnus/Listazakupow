@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
-import pl.wojtach.listazakupow.database.DbHelper
+import pl.wojtach.listazakupow.database.DbCreator
 import pl.wojtach.listazakupow.list.onActivityCreate
 import pl.wojtach.listazakupow.list.onAddNewShoppingList
 
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        DbHelper(applicationContext).close()
+        DbCreator(applicationContext).close()
         Log.d(this::class.java.simpleName, "onDestroy")
         super.onDestroy()
     }
