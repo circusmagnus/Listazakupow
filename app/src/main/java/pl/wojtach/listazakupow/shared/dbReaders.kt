@@ -66,6 +66,8 @@ private val shoppingItemsProjection = arrayOf(
         DbContract.ShoppingItemsTable.Columns.shoppingListId
 )
 
+private val shoppingItemsIdsProjection = arrayOf(BaseColumns._ID)
+
 fun getShoppingItemsForId(id: Long, appContext: Context) = DbHelper(appContext).readableDatabase
         .query(
                 DbContract.ShoppingItemsTable.name,
@@ -76,6 +78,16 @@ fun getShoppingItemsForId(id: Long, appContext: Context) = DbHelper(appContext).
                 null,
                 null
         ).let { mapToShoppingItems(it) }
+
+fun getShoppingItemsIds(shoppingListId: Long, appContext: Context) = DbHelper(appContext).readableDatabase
+        .query(DbContract.ShoppingItemsTable.name,
+                shoppingItemsIdsProjection,
+                "${DbContract.ShoppingItemsTable.Columns.shoppingListId} =?",
+                arrayOf(shoppingListId.toString()),
+                null,
+                null,
+                null
+        ).let { mapToShoppingItemsIds(it) }
 
 private fun mapToShoppingItems(cursor: Cursor): List<ShoppingItem> {
     tailrec fun addToList(list: MutableList<ShoppingItem>): MutableList<ShoppingItem> =
@@ -90,5 +102,14 @@ private fun mapToShoppingItems(cursor: Cursor): List<ShoppingItem> {
             }
     return addToList(mutableListOf()).also { cursor.close() }
 }
+
+private fun mapToShoppingItemsIds(cursor: Cursor): List<Long> {
+    tailrec fun addToList(list: MutableList<Long>): MutableList<Long> =
+            if (!cursor.moveToNext()) list
+            else {
+                list.add(cursor.getLong(getIndex(BaseColumns._ID, cursor)))
+                addToList(list)
+            }
+    return addToList(mutableListOf()).also { cursor.close() }
 
 

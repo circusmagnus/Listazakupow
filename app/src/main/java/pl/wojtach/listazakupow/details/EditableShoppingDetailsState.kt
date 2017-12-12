@@ -1,20 +1,23 @@
 package pl.wojtach.listazakupow.details
 
+import android.content.Context
 import android.view.inputmethod.EditorInfo
 import pl.wojtach.listazakupow.list.ShoppingList
 import java.text.SimpleDateFormat
 import java.util.*
 
+typealias GetShoppingItem = (Context) -> ShoppingItem
+
 interface ShoppingDetailsState{
     val shoppingList: ShoppingList
-    val shoppingItems: List<ShoppingItem>
+    val shoppingItems: List<GetShoppingItem>
     fun draw (view: ShoppingDetailsView)
 }
 
 class NonExistingShoppingDetailsState : ShoppingDetailsState {
     override val shoppingList: ShoppingList
         get() = throw NotImplementedError()
-    override val shoppingItems: List<ShoppingItem>
+    override val shoppingItems: List<GetShoppingItem>
         get() = throw NotImplementedError()
 
     override fun draw(view: ShoppingDetailsView) {
@@ -22,9 +25,10 @@ class NonExistingShoppingDetailsState : ShoppingDetailsState {
     }
 }
 
+
 class ArchivedShoppingDetailsState(
         shoppingList: ShoppingList,
-        override val shoppingItems: List<ShoppingItem>) : ShoppingDetailsState {
+        override val shoppingItems: List<GetShoppingItem>) : ShoppingDetailsState {
 
     override val shoppingList = shoppingList.takeIf { it.isArchived } ?: throw IllegalArgumentException("This list is not archived")
 
@@ -42,7 +46,7 @@ class ArchivedShoppingDetailsState(
 
 class EditableShoppingDetailsState(
         shoppingList: ShoppingList,
-        override val shoppingItems: List<ShoppingItem>
+        override val shoppingItems: List<GetShoppingItem>
 ) : ShoppingDetailsState {
 
     override val shoppingList = shoppingList.takeUnless { it.isArchived } ?: throw IllegalArgumentException("This list is archived")

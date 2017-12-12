@@ -1,5 +1,6 @@
 package pl.wojtach.listazakupow.details
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,7 +17,7 @@ interface ListAdapter<ITEM>{
     val items: MutableList<ITEM>
 }
 
-class ShoppingItemsAdapter(var items: List<ShoppingItem>
+class ShoppingItemsAdapter(var items: List<GetShoppingItem>
 ) : RecyclerView.Adapter<ShoppingItemHolder>() {
 
     override fun onBindViewHolder(holder: ShoppingItemHolder, position: Int) {
@@ -32,18 +33,19 @@ class ShoppingItemsAdapter(var items: List<ShoppingItem>
 
 class ShoppingItemHolder(val view: ViewGroup): RecyclerView.ViewHolder(view) {
 
+    private fun appContext(): Context = view.context.applicationContext
 
-    fun onBind(item: ShoppingItem){
-        view.shopping_item.setText(item.item)
+    fun onBind(getItem: GetShoppingItem){
+        view.shopping_item.setText(getItem(appContext()).item)
         view.shopping_item.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 onShoppingItemEdited.invoke(
                         ShoppingItem(
-                                id = item.id,
-                                shoppingListId = item.shoppingListId,
+                                id = getItem(appContext()).id,
+                                shoppingListId = getItem(appContext()).shoppingListId,
                                 item = view.shopping_item.text.toString()
                         ),
-                        view.context.applicationContext
+                        appContext()
                 )
             }
 

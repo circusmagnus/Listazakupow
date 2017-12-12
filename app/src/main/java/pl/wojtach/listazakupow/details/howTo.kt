@@ -3,6 +3,7 @@ package pl.wojtach.listazakupow.details
 import android.content.Context
 import pl.wojtach.listazakupow.list.ShoppingList
 import pl.wojtach.listazakupow.shared.getShoppingItemsForId
+import pl.wojtach.listazakupow.shared.getShoppingItemsIds
 import pl.wojtach.listazakupow.shared.getShoppingListByIdFromSQLIte
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,7 +22,8 @@ fun createShoppingDetailsState(appContext: Context, shoppingListId: Long): Shopp
                         it == null -> NonExistingShoppingDetailsState()
                         it.isArchived -> ArchivedShoppingDetailsState(
                                 it,
-                                getShoppingItemsForId(shoppingListId, appContext)
+                                getShoppingItemsIds(shoppingListId, appContext)
+                                        .map { { getShop } }
                         )
                         it.isArchived.not() -> EditableShoppingDetailsState(
                                 it,
