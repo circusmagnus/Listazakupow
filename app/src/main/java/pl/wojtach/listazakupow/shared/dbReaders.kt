@@ -135,7 +135,7 @@ data class QueryPayload(
 )
 
 private fun QueryPayload.executeQuery(appContext: Context): Cursor =
-        DbCreator(appContext).readableDatabase.query(
+        DbCreator.getInstance(appContext).readableDatabase.query(
                 tableName,
                 objectProjection,
                 where,

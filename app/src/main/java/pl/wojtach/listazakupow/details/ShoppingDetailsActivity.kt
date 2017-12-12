@@ -22,9 +22,10 @@ class ShoppingDetailsActivity : AppCompatActivity(), ShoppingDetailsFrag.Shoppin
     override fun getSelectedShoppingListId(): Long =
         intent.getLongExtra(shoppingListIdKey, -1).also { Log.d(this::class.java.simpleName, "gettingId: $it") }
 
-    override fun onDestroy() {
-        DbCreator(applicationContext).close()
-        super.onDestroy()
+    override fun onStop() {
+        Log.d(this::class.java.simpleName, "onStop")
+        DbCreator.getInstance(applicationContext).close()
+        super.onStop()
     }
 
 }

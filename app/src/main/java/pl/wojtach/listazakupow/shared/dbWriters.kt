@@ -14,7 +14,7 @@ import pl.wojtach.listazakupow.list.ShoppingList
  * Created by Lukasz on 09.12.2017.
  */
 fun saveShoppingListToSqlDb(context: Context, shoppingList: ShoppingList): Long =
-        DbCreator(context).writableDatabase.insertWithOnConflict(
+        DbCreator.getInstance(context).writableDatabase.insertWithOnConflict(
                     DbContract.ShoppingListsTable.name,
                     null,
                     getContentValuesForList(shoppingList),
@@ -22,7 +22,7 @@ fun saveShoppingListToSqlDb(context: Context, shoppingList: ShoppingList): Long 
             )
 
 fun saveShoppingItemToSqlDb(context: Context, shoppingItem: ShoppingItem): Long =
-        DbCreator(context).writableDatabase.insertWithOnConflict(
+        DbCreator.getInstance(context).writableDatabase.insertWithOnConflict(
                     DbContract.ShoppingItemsTable.name,
                     null,
                     getContentValuesForItem(shoppingItem),

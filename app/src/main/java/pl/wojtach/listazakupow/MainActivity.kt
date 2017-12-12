@@ -48,10 +48,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onDestroy() {
-        DbCreator(applicationContext).close()
-        Log.d(this::class.java.simpleName, "onDestroy")
-        super.onDestroy()
+    override fun onStop() {
+        DbCreator.getInstance(applicationContext).close()
+        Log.d(this::class.java.simpleName, "onStop")
+        super.onStop()
     }
 
 }
