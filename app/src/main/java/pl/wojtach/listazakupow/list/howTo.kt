@@ -1,6 +1,5 @@
 package pl.wojtach.listazakupow.list
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import kotlinx.android.synthetic.main.shopping_list_small_card.view.*
@@ -36,7 +35,7 @@ fun addNewShoppingList(oldData: List<ShoppingList>, timestamp: Long) = ShoppingL
 fun saveShoppingLists(context: Context, data: List<ShoppingList>) =
         data.map { it.copy(id = saveShoppingListToSqlDb(context, it)) }
 
-fun startShoppingListDetailsActivity(listId: Long, activity: Activity) =
-        Intent(activity, ShoppingDetailsActivity::class.java)
+fun startShoppingListDetailsActivity(listId: Long, context: Context) =
+        Intent(context, ShoppingDetailsActivity::class.java)
                 .apply { putExtra(shoppingListIdKey, listId) }
-                .let { activity.startActivity(it) }
+                .let { context.startActivity(it) }

@@ -6,7 +6,7 @@ import pl.wojtach.listazakupow.list.ShoppingList
 import java.text.SimpleDateFormat
 import java.util.*
 
-typealias GetShoppingItem = (Context) -> ShoppingItem
+typealias GetShoppingItem = (Context) -> ShoppingItem?
 
 interface ShoppingDetailsState{
     val shoppingList: ShoppingList
@@ -59,9 +59,10 @@ class EditableShoppingDetailsState(
             shoppingListItems.adapter.notifyDataSetChanged()
             addNewShoppingItemButton.setOnClickListener {
                 onShoppingListItemAdded(
-                        view = this,
-                        appContext = this.appContext,
-                        shoppingListId = shoppingList.id).invoke() }
+                        this,
+                        this.appContext,
+                        shoppingList.id)
+            }
 
         }.let { Unit }
 

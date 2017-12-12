@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_shopping_details.*
 import pl.wojtach.listazakupow.R
+import pl.wojtach.listazakupow.database.DbCreator
 
 val shoppingListIdKey = "SHOPPING_LIST_KEY"
 
@@ -20,4 +21,10 @@ class ShoppingDetailsActivity : AppCompatActivity(), ShoppingDetailsFrag.Shoppin
 
     override fun getSelectedShoppingListId(): Long =
         intent.getLongExtra(shoppingListIdKey, -1).also { Log.d(this::class.java.simpleName, "gettingId: $it") }
+
+    override fun onDestroy() {
+        DbCreator(applicationContext).close()
+        super.onDestroy()
+    }
+
 }

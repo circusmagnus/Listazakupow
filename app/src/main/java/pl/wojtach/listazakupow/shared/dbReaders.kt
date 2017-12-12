@@ -3,7 +3,6 @@ package pl.wojtach.listazakupow.shared
 import android.content.Context
 import android.database.Cursor
 import android.provider.BaseColumns
-import android.util.Log
 import pl.wojtach.listazakupow.database.DbContract
 import pl.wojtach.listazakupow.database.DbContract.ShoppingListsTable.Columns.isArchived
 import pl.wojtach.listazakupow.database.DbContract.ShoppingListsTable.Columns.name
@@ -19,29 +18,70 @@ private val shoppingListsProjection = arrayOf(
         isArchived
 )
 
-fun getAllShoppingListsFromSQLite(context: Context): List<ShoppingList> = DbCreator(context).readableDatabase
-        .query(DbContract.ShoppingListsTable.name,
-                shoppingListsProjection,
-                null,
-                null,
-                null,
-                null,
-                "$timestamp DESC"
-        )
+private val shoppingItemsProjection = arrayOf(
+        BaseColumns._ID,
+        DbContract.ShoppingItemsTable.Columns.shoppingItem,
+        DbContract.ShoppingItemsTable.Columns.shoppingListId
+)
+
+private val shoppingItemsIdsProjection = arrayOf(BaseColumns._ID)
+
+fun getAllShoppingListsFromSQLite(context: Context): List<ShoppingList> = QueryPayload(
+        DbContract.ShoppingListsTable.name,
+        shoppingListsProjection,
+        null,
+        null,
+        null,
+        null,
+        "$timestamp DESC"
+).executeQuery(context)
         .let { mapToShoppingLists(it) }
 
-fun getShoppingListByIdFromSQLIte(context: Context, id: Long): ShoppingList? = DbCreator(context).readableDatabase
-        .query(
-                DbContract.ShoppingListsTable.name,
-                shoppingListsProjection,
-                "${BaseColumns._ID} =?",
-                arrayOf(id.toString()),
-                null,
-                null,
-                null
-        ).also { Log.d("getListById", "$id") }
+fun getShoppingListByIdFromSQLIte(context: Context, id: Long): ShoppingList? = QueryPayload(
+        DbContract.ShoppingListsTable.name,
+        shoppingListsProjection,
+        "${BaseColumns._ID} =?",
+        arrayOf(id.toString()),
+        null,
+        null,
+        null
+).executeQuery(context)
         .let { mapToShoppingLists(it) }
         .firstOrNull()
+
+fun getShoppingItemsForId(id: Long, appContext: Context) = QueryPayload(
+        DbContract.ShoppingItemsTable.name,
+        shoppingItemsProjection,
+        "${DbContract.ShoppingItemsTable.Columns.shoppingListId} =?",
+        arrayOf(id.toString()),
+        null,
+        null,
+        null
+).executeQuery(appContext)
+        .let { mapToShoppingItems(it) }
+
+fun getShoppingItemById(shoppingItemId: Long, appContext: Context) = QueryPayload(
+        tableName = DbContract.ShoppingItemsTable.name,
+        objectProjection = shoppingItemsProjection,
+        where = "${BaseColumns._ID} =?",
+        whereArgs = arrayOf(shoppingItemId.toString()),
+        groupBy = null,
+        having = null,
+        orderBy = null
+).executeQuery(appContext)
+        .let { mapToShoppingItems(it) }
+        .firstOrNull()
+
+fun getShoppingItemsIds(shoppingListId: Long, appContext: Context) = QueryPayload(
+        DbContract.ShoppingItemsTable.name,
+        shoppingItemsIdsProjection,
+        "${DbContract.ShoppingItemsTable.Columns.shoppingListId} =?",
+        arrayOf(shoppingListId.toString()),
+        null,
+        null,
+        null
+).executeQuery(appContext)
+        .let { mapToShoppingItemsIds(it) }
 
 private fun mapToShoppingLists(cursor: Cursor): List<ShoppingList> {
     tailrec fun addToList(list: MutableList<ShoppingList>): MutableList<ShoppingList> =
@@ -59,35 +99,6 @@ private fun mapToShoppingLists(cursor: Cursor): List<ShoppingList> {
 }
 
 private fun getIndex(columnName: String, cursor: Cursor) = cursor.getColumnIndexOrThrow(columnName)
-
-private val shoppingItemsProjection = arrayOf(
-        BaseColumns._ID,
-        DbContract.ShoppingItemsTable.Columns.shoppingItem,
-        DbContract.ShoppingItemsTable.Columns.shoppingListId
-)
-
-private val shoppingItemsIdsProjection = arrayOf(BaseColumns._ID)
-
-fun getShoppingItemsForId(id: Long, appContext: Context) = DbCreator(appContext).readableDatabase
-        .query(
-                DbContract.ShoppingItemsTable.name,
-                shoppingItemsProjection,
-                "${DbContract.ShoppingItemsTable.Columns.shoppingListId} =?",
-                arrayOf(id.toString()),
-                null,
-                null,
-                null
-        ).let { mapToShoppingItems(it) }
-
-fun getShoppingItemsIds(shoppingListId: Long, appContext: Context) = DbCreator(appContext).readableDatabase
-        .query(DbContract.ShoppingItemsTable.name,
-                shoppingItemsIdsProjection,
-                "${DbContract.ShoppingItemsTable.Columns.shoppingListId} =?",
-                arrayOf(shoppingListId.toString()),
-                null,
-                null,
-                null
-        ).let { mapToShoppingItemsIds(it) }
 
 private fun mapToShoppingItems(cursor: Cursor): List<ShoppingItem> {
     tailrec fun addToList(list: MutableList<ShoppingItem>): MutableList<ShoppingItem> =
@@ -111,5 +122,27 @@ private fun mapToShoppingItemsIds(cursor: Cursor): List<Long> {
                 addToList(list)
             }
     return addToList(mutableListOf()).also { cursor.close() }
+}
+
+data class QueryPayload(
+        val tableName: String,
+        val objectProjection: Array<String>,
+        val where: String?,
+        val whereArgs: Array<String>?,
+        val groupBy: String?,
+        val having: String?,
+        val orderBy: String?
+)
+
+private fun QueryPayload.executeQuery(appContext: Context): Cursor =
+        DbCreator(appContext).readableDatabase.query(
+                tableName,
+                objectProjection,
+                where,
+                whereArgs,
+                groupBy,
+                having,
+                orderBy
+        )
 
 

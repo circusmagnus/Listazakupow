@@ -29,20 +29,26 @@ class ShoppingItemsAdapter(var items: List<GetShoppingItem>
                     R.layout.shopping_item, parent, false) as ViewGroup)
 
     override fun getItemCount(): Int = items.size
+
+    override fun onViewRecycled(holder: ShoppingItemHolder?) {
+        holder?.onUnbind()
+        super.onViewRecycled(holder)
+    }
 }
 
 class ShoppingItemHolder(val view: ViewGroup): RecyclerView.ViewHolder(view) {
 
+    private lateinit var textWatcher: TextWatcher
+
     private fun appContext(): Context = view.context.applicationContext
 
     fun onBind(getItem: GetShoppingItem){
-        view.shopping_item.setText(getItem(appContext()).item)
-        view.shopping_item.addTextChangedListener(object : TextWatcher{
+        textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 onShoppingItemEdited.invoke(
                         ShoppingItem(
-                                id = getItem(appContext()).id,
-                                shoppingListId = getItem(appContext()).shoppingListId,
+                                id = getItem(appContext())?.id ?: -1L,
+                                shoppingListId = getItem(appContext())?.shoppingListId ?: -1L,
                                 item = view.shopping_item.text.toString()
                         ),
                         appContext()
@@ -54,7 +60,14 @@ class ShoppingItemHolder(val view: ViewGroup): RecyclerView.ViewHolder(view) {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
-        })
+        }
+
+        view.shopping_item.setText(getItem(appContext())?.item ?: "")
+        view.shopping_item.addTextChangedListener(textWatcher)
+    }
+
+    fun onUnbind() {
+        view.shopping_item.removeTextChangedListener(textWatcher)
     }
 }
 

@@ -2,19 +2,25 @@ package pl.wojtach.listazakupow.details
 
 import android.content.Context
 import android.util.Log
-import pl.wojtach.listazakupow.shared.*
+import pl.wojtach.listazakupow.shared.initProcedureWith
+import pl.wojtach.listazakupow.shared.saveShoppingItemToSqlDb
+import pl.wojtach.listazakupow.shared.saveShoppingListToSqlDb
+import pl.wojtach.listazakupow.shared.use
 
 fun onFragmentViewCreated(view: ShoppingDetailsView, appContext: Context, shoppingListId: Long) =
         initProcedureWith { createShoppingDetailsState(appContext, shoppingListId) }
                 .use { it.draw(view) }
 
-fun onShoppingListItemAdded(view: ShoppingDetailsView, appContext: Context, shoppingListId: Long) =
-        initProcedureWith { createShoppingDetailsState(appContext, shoppingListId) }
-                .compose { addNewShoppingItem(it) }
-                .use {
-                    it.shoppingItems.forEach { saveShoppingItemToSqlDb(appContext, it) }
-                    it.draw(view)
-                }
+val onShoppingListItemAdded: (ShoppingDetailsView, Context, Long) -> Unit =
+        { view: ShoppingDetailsView, appContext: Context, shoppingListId: Long ->
+            createShoppingDetailsState(appContext, shoppingListId)
+                    .let { addNewShoppingItem(it, appContext) }
+                    .run { draw(view) }
+        }
+
+//        initProcedureWith { createShoppingDetailsState(appContext, shoppingListId) }
+//                .compose { addNewShoppingItem(it, appContext) }
+//                .use { it.draw(view) }
 
 fun onFragmentDestroyed(view: ShoppingDetailsView, appContext: Context) =
         initProcedureWith { getShoppingListFromUI(view) }
@@ -22,4 +28,5 @@ fun onFragmentDestroyed(view: ShoppingDetailsView, appContext: Context) =
 
 val onShoppingItemEdited =
         { item: ShoppingItem, appContext: Context -> saveShoppingItemToSqlDb(appContext, item)
-        Log.d("onItemEdited", item.item)}
+            Log.d("onItemEdited", "id: ${item.id} content: ${item.item}")
+        }

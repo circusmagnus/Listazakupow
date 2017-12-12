@@ -6,5 +6,6 @@ class ShoppingListHolder(val view: ShoppingListSmallView): RecyclerView.ViewHold
 
     fun setData(shoppingList: ShoppingList) {
         drawSmallShoppingListView(shoppingList, view)
+        view.setOnClickListener { onShoppingListClicked(shoppingList.id, view.context) }
     }
 }

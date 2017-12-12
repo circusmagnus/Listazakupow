@@ -1,6 +1,7 @@
 package pl.wojtach.listazakupow.list
 
 import android.app.Activity
+import android.content.Context
 import android.util.Log
 import pl.wojtach.listazakupow.shared.compose
 import pl.wojtach.listazakupow.shared.getAllShoppingListsFromSQLite
@@ -20,3 +21,5 @@ fun onAddNewShoppingList(view: ShoppingListsView, activity: Activity)
 fun onActivityCreate(activity: Activity, view: ShoppingListsView) =
         initProcedureWith { getAllShoppingListsFromSQLite(activity.applicationContext) }
                 .use { drawListView(shoppingLists = it, view = view) }
+
+val onShoppingListClicked = { listId: Long, context: Context -> startShoppingListDetailsActivity(listId, context) }
