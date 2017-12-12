@@ -1,6 +1,7 @@
 package pl.wojtach.listazakupow.details
 
 import android.content.Context
+import android.util.Log
 import pl.wojtach.listazakupow.shared.*
 
 fun onFragmentViewCreated(view: ShoppingDetailsView, appContext: Context, shoppingListId: Long) =
@@ -18,3 +19,7 @@ fun onShoppingListItemAdded(view: ShoppingDetailsView, appContext: Context, shop
 fun onFragmentDestroyed(view: ShoppingDetailsView, appContext: Context) =
         initProcedureWith { getShoppingListFromUI(view) }
                 .use { saveShoppingListToSqlDb(appContext, it) }
+
+val onShoppingItemEdited =
+        { item: ShoppingItem, appContext: Context -> saveShoppingItemToSqlDb(appContext, item)
+        Log.d("onItemEdited", item.item)}
