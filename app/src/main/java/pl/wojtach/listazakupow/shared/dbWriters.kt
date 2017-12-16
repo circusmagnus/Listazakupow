@@ -2,11 +2,9 @@ package pl.wojtach.listazakupow.shared
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE
 import android.provider.BaseColumns
 import pl.wojtach.listazakupow.database.DbContract
-import pl.wojtach.listazakupow.database.DbCreator
 import pl.wojtach.listazakupow.details.ShoppingItem
 import pl.wojtach.listazakupow.list.ShoppingList
 
@@ -14,7 +12,7 @@ import pl.wojtach.listazakupow.list.ShoppingList
  * Created by Lukasz on 09.12.2017.
  */
 fun saveShoppingListToSqlDb(context: Context, shoppingList: ShoppingList): Long =
-        DbCreator.getInstance(context).writableDatabase.insertWithOnConflict(
+        SQLiteDatabase.getInstance(context).writableDatabase.insertWithOnConflict(
                     DbContract.ShoppingListsTable.name,
                     null,
                     getContentValuesForList(shoppingList),
@@ -22,14 +20,14 @@ fun saveShoppingListToSqlDb(context: Context, shoppingList: ShoppingList): Long 
             )
 
 fun saveShoppingItemToSqlDb(context: Context, shoppingItem: ShoppingItem): Long =
-        DbCreator.getInstance(context).writableDatabase.insertWithOnConflict(
+        SQLiteDatabase.getInstance(context).writableDatabase.insertWithOnConflict(
                     DbContract.ShoppingItemsTable.name,
                     null,
                     getContentValuesForItem(shoppingItem),
                     CONFLICT_REPLACE
             )
 
-fun SQLiteDatabase.saveInTransaction(operation: (SQLiteDatabase) -> Long): Long {
+fun android.database.sqlite.SQLiteDatabase.saveInTransaction(operation: (android.database.sqlite.SQLiteDatabase) -> Long): Long {
     var insertedItemId = -1L
     with(this) {
         beginTransaction()

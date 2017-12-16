@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
-import pl.wojtach.listazakupow.database.DbCreator
+import pl.wojtach.listazakupow.database.SQLiteDatabase
 import pl.wojtach.listazakupow.list.onActivityCreate
 import pl.wojtach.listazakupow.list.onAddNewShoppingList
 
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        DbCreator.getInstance(applicationContext).close()
+        SQLiteDatabase.getInstance(applicationContext).close()
         Log.d(this::class.java.simpleName, "onStop")
         super.onStop()
     }

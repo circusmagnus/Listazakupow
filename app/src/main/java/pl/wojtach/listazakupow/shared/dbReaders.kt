@@ -7,7 +7,7 @@ import pl.wojtach.listazakupow.database.DbContract
 import pl.wojtach.listazakupow.database.DbContract.ShoppingListsTable.Columns.isArchived
 import pl.wojtach.listazakupow.database.DbContract.ShoppingListsTable.Columns.name
 import pl.wojtach.listazakupow.database.DbContract.ShoppingListsTable.Columns.timestamp
-import pl.wojtach.listazakupow.database.DbCreator
+import pl.wojtach.listazakupow.database.SQLiteDatabase
 import pl.wojtach.listazakupow.details.ShoppingItem
 import pl.wojtach.listazakupow.list.ShoppingList
 
@@ -135,7 +135,7 @@ data class QueryPayload(
 )
 
 private fun QueryPayload.executeQuery(appContext: Context): Cursor =
-        DbCreator.getInstance(appContext).readableDatabase.query(
+        SQLiteDatabase.getInstance(appContext).readableDatabase.query(
                 tableName,
                 objectProjection,
                 where,
