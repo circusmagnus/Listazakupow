@@ -7,7 +7,7 @@ import android.util.Log
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import pl.wojtach.listazakupow.database.DatabaseHolder
-import pl.wojtach.listazakupow.list.onActivityCreate
+import pl.wojtach.listazakupow.list.onActivityStart
 import pl.wojtach.listazakupow.list.onAddNewShoppingList
 
 class MainActivity : AppCompatActivity() {
@@ -37,15 +37,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mTextMessage = findViewById<TextView>(R.id.message)
-        val navigation = findViewById<TextView>(R.id.navigation) as BottomNavigationView
+        val navigation = findViewById<BottomNavigationView>(R.id.navigation) as BottomNavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
-        onActivityCreate(this, shoppingListsTable).invoke()
 
         addNewShoppingListButton
                 .setOnClickListener{ _ ->
                     onAddNewShoppingList(shoppingListsTable, this).invoke() }
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        onActivityStart(this, shoppingListsTable).invoke()
     }
 
     override fun onStop() {

@@ -18,7 +18,7 @@ fun onAddNewShoppingList(view: ShoppingListsView, activity: Activity)
             startShoppingListDetailsActivity(it.first().id, activity)
         }
 
-fun onActivityCreate(activity: Activity, view: ShoppingListsView) =
+fun onActivityStart(activity: Activity, view: ShoppingListsView) =
         initProcedureWith { getAllShoppingListsFromSQLite(activity.applicationContext) }
                 .use { drawListView(shoppingLists = it, view = view) }
 
