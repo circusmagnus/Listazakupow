@@ -54,9 +54,16 @@ class EditableShoppingDetailsState(
     override fun draw(view: ShoppingDetailsView) =
         view.apply {
             shoppingListName.text = shoppingList.name
+            shoppingListName.addTextChangedListener(
+                    SimpleTextWatcher {
+                        onShoppingListNameEdited(shoppingList.copy(name = shoppingListName.text.toString()), view.appContext)
+                    }
+            )
+
             shoppingListDate.text = SimpleDateFormat("dd-MM-yyyy").format(Date(shoppingList.timestamp))
             shoppingListItems.adapter.items = shoppingItems
             shoppingListItems.adapter.notifyDataSetChanged()
+
             addNewShoppingItemButton.setOnClickListener {
                 onShoppingListItemAdded(
                         this,
@@ -65,5 +72,6 @@ class EditableShoppingDetailsState(
             }
 
         }.let { Unit }
+
 
 }

@@ -2,6 +2,7 @@ package pl.wojtach.listazakupow.details
 
 import android.content.Context
 import android.util.Log
+import pl.wojtach.listazakupow.list.ShoppingList
 import pl.wojtach.listazakupow.shared.initProcedureWith
 import pl.wojtach.listazakupow.shared.saveShoppingItemToSqlDb
 import pl.wojtach.listazakupow.shared.saveShoppingListToSqlDb
@@ -30,3 +31,7 @@ val onShoppingItemEdited =
         { item: ShoppingItem, appContext: Context -> saveShoppingItemToSqlDb(appContext, item)
             Log.d("onItemEdited", "id: ${item.id} content: ${item.item}")
         }
+
+val onShoppingListNameEdited = { shoppingList: ShoppingList, appContext: Context ->
+    saveShoppingListToSqlDb(appContext, shoppingList)
+}

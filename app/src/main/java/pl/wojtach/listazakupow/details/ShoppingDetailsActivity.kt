@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_shopping_details.*
 import pl.wojtach.listazakupow.R
-import pl.wojtach.listazakupow.database.SQLiteDatabase
+import pl.wojtach.listazakupow.database.DatabaseHolder
 
 val shoppingListIdKey = "SHOPPING_LIST_KEY"
 
@@ -24,7 +24,7 @@ class ShoppingDetailsActivity : AppCompatActivity(), ShoppingDetailsFrag.Shoppin
 
     override fun onStop() {
         Log.d(this::class.java.simpleName, "onStop")
-        SQLiteDatabase.getInstance(applicationContext).close()
+        DatabaseHolder.getInstance(applicationContext).close()
         super.onStop()
     }
 

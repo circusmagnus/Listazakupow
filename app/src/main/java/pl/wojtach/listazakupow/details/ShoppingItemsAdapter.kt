@@ -2,7 +2,6 @@ package pl.wojtach.listazakupow.details
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -43,23 +42,15 @@ class ShoppingItemHolder(val view: ViewGroup): RecyclerView.ViewHolder(view) {
     private fun appContext(): Context = view.context.applicationContext
 
     fun onBind(getItem: GetShoppingItem){
-        textWatcher = object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                onShoppingItemEdited.invoke(
-                        ShoppingItem(
-                                id = getItem(appContext())?.id ?: -1L,
-                                shoppingListId = getItem(appContext())?.shoppingListId ?: -1L,
-                                item = view.shopping_item.text.toString()
-                        ),
-                        appContext()
-                )
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
+        textWatcher = SimpleTextWatcher {
+            onShoppingItemEdited.invoke(
+                    ShoppingItem(
+                            id = getItem(appContext())?.id ?: -1L,
+                            shoppingListId = getItem(appContext())?.shoppingListId ?: -1L,
+                            item = view.shopping_item.text.toString()
+                    ),
+                    appContext()
+            )
         }
 
         view.shopping_item.setText(getItem(appContext())?.item ?: "")

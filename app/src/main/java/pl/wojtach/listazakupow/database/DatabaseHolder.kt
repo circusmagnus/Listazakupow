@@ -5,14 +5,14 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
 
-class SQLiteDatabase private constructor(context: Context)
+class DatabaseHolder private constructor(context: Context)
     : SQLiteOpenHelper(context, DbContract.DATABASE_NAME, null, DbContract.DATABASE_VERSION) {
 
     companion object {
-        private var instance: pl.wojtach.listazakupow.database.SQLiteDatabase? = null
+        private var instance: pl.wojtach.listazakupow.database.DatabaseHolder? = null
         fun getInstance(context: Context) = instance
                 .takeUnless { it == null }
-                ?: SQLiteDatabase(context).also { instance = it }
+                ?: DatabaseHolder(context).also { instance = it }
     }
 
     val createShoppingListTableStatement = (
