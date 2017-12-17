@@ -28,6 +28,13 @@ fun saveShoppingItemToSqlDb(context: Context, shoppingItem: ShoppingItem): Long 
                     CONFLICT_REPLACE
             )
 
+fun deleteShoppingItemFromSqlDb(context: Context, shoppingItem: ShoppingItem) =
+        DatabaseHolder.getInstance(context).writableDatabase.delete(
+                DbContract.ShoppingItemsTable.name,
+                BaseColumns._ID,
+                arrayOf(shoppingItem.id.toString())
+        )
+
 fun android.database.sqlite.SQLiteDatabase.saveInTransaction(operation: (android.database.sqlite.SQLiteDatabase) -> Long): Long {
     var insertedItemId = -1L
     with(this) {

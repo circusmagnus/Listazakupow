@@ -55,6 +55,10 @@ class ShoppingItemHolder(val view: ViewGroup): RecyclerView.ViewHolder(view) {
 
         view.shopping_item.setText(getItem(appContext())?.item ?: "")
         view.shopping_item.addTextChangedListener(textWatcher)
+        view.delete_button.setOnClickListener {
+            getItem(view.context.applicationContext)
+                    ?.let { onShoppingItemDeleted(it, view.parent) }
+        }
     }
 
     fun onUnbind() {
