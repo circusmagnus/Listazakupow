@@ -1,5 +1,6 @@
 package pl.wojtach.listazakupow.list
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import kotlinx.android.synthetic.main.shopping_list_small_card.view.*
@@ -22,11 +23,11 @@ fun drawListView(shoppingLists: List<ShoppingList>, view: ShoppingListsView) =
             notifyDataSetChanged()
         }
 
-
+@SuppressLint("SimpleDateFormat")
 fun drawSmallShoppingListView(shoppingList: ShoppingList, view: ShoppingListSmallView, archivize: ShoppingListArchiver) =
         view.apply {
-            name.setText(shoppingList.name)
-            date.setText(SimpleDateFormat("dd-MM-yyyy").format(Date(shoppingList.timestamp)))
+            name.text = shoppingList.name
+            date.text = SimpleDateFormat("dd-MM-yyyy").format(Date(shoppingList.timestamp))
             archivize_button.setOnClickListener { archivize(shoppingList) }
         }
 

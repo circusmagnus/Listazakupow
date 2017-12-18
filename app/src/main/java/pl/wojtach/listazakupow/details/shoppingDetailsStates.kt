@@ -24,6 +24,7 @@ class NonExistingShoppingDetailsState : ShoppingDetailsState {
         get() = throw IllegalStateException()
 
     override fun draw(view: ShoppingDetailsView) {
+        TODO("need to show error here")
     }
 }
 

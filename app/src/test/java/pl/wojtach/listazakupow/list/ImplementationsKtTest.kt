@@ -13,7 +13,7 @@ import org.robolectric.RuntimeEnvironment
  */
 
 @RunWith(RobolectricTestRunner::class)
-class HowToKtTest {
+class ImplementationsKtTest {
 
     private val testList = listOf(
             ShoppingList(name = "test", timestamp = 1512941251000, isArchived = false)
@@ -33,7 +33,7 @@ class HowToKtTest {
     fun drawSmallShoppingListView_setsProperDataOnViews() {
         val view = ShoppingListSmallView(RuntimeEnvironment.application)
 
-        drawSmallShoppingListView(testList.first(), view)
+        drawSmallShoppingListView(shoppingList = testList.first(), view = view, archivize = {})
 
         view.name.text shouldEqual testList.first().name
         view.date.text shouldEqual "10-12-2017"
