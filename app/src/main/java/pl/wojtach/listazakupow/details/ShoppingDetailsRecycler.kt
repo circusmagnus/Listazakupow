@@ -15,7 +15,7 @@ class ShoppingDetailsRecycler @JvmOverloads constructor(
 ) : RecyclerView(context, attrs, defStyleAttr) {
 
     init {
-        adapter = ShoppingItemsAdapter(emptyList())
+        adapter = ShoppingItemsAdapter(emptyList(), emptyList())
         layoutManager = LinearLayoutManager(context)
     }
 

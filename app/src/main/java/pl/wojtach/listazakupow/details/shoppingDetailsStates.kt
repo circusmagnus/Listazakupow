@@ -7,28 +7,29 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 typealias GetShoppingItem = (Context) -> ShoppingItem?
+typealias RemoveShoppingItem = (Context, Long) -> Unit
 
 interface ShoppingDetailsState{
     val shoppingList: ShoppingList
-    val shoppingItems: List<GetShoppingItem>
+    val shoppingItemGetters: List<GetShoppingItem>
+
     fun draw (view: ShoppingDetailsView)
 }
 
 class NonExistingShoppingDetailsState : ShoppingDetailsState {
     override val shoppingList: ShoppingList
-        get() = throw NotImplementedError()
-    override val shoppingItems: List<GetShoppingItem>
-        get() = throw NotImplementedError()
+        get() = throw IllegalStateException()
+    override val shoppingItemGetters: List<GetShoppingItem>
+        get() = throw IllegalStateException()
 
     override fun draw(view: ShoppingDetailsView) {
-
     }
 }
 
 
 class ArchivedShoppingDetailsState(
         shoppingList: ShoppingList,
-        override val shoppingItems: List<GetShoppingItem>) : ShoppingDetailsState {
+        override val shoppingItemGetters: List<GetShoppingItem>) : ShoppingDetailsState {
 
     override val shoppingList = shoppingList.takeIf { it.isArchived } ?: throw IllegalArgumentException("This list is not archived")
 
@@ -36,7 +37,7 @@ class ArchivedShoppingDetailsState(
             view.apply {
                 shoppingListName.text = shoppingList.name
                 shoppingListDate.text = SimpleDateFormat("dd-MM-yyyy").format(Date(shoppingList.timestamp))
-                shoppingListItems.adapter.items = shoppingItems
+                shoppingListItems.adapter.getters = shoppingItemGetters
 
                 shoppingListName.inputType = EditorInfo.TYPE_NULL
                 shoppingListDate.inputType = EditorInfo.TYPE_NULL
@@ -46,8 +47,7 @@ class ArchivedShoppingDetailsState(
 
 class EditableShoppingDetailsState(
         shoppingList: ShoppingList,
-        override val shoppingItems: List<GetShoppingItem>
-) : ShoppingDetailsState {
+        override val shoppingItemGetters: List<GetShoppingItem>) : ShoppingDetailsState {
 
     override val shoppingList = shoppingList.takeUnless { it.isArchived } ?: throw IllegalArgumentException("This list is archived")
 
@@ -61,7 +61,10 @@ class EditableShoppingDetailsState(
             )
 
             shoppingListDate.text = SimpleDateFormat("dd-MM-yyyy").format(Date(shoppingList.timestamp))
-            shoppingListItems.adapter.items = shoppingItems
+            shoppingListItems.adapter.getters = shoppingItemGetters
+            shoppingListItems.adapter.removers = shoppingItemGetters
+                    .map { createShoppingItemRemover(view, shoppingList.id) }
+
             shoppingListItems.adapter.notifyDataSetChanged()
 
             addNewShoppingItemButton.setOnClickListener {

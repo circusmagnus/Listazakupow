@@ -29,10 +29,13 @@ fun saveShoppingItemToSqlDb(context: Context, shoppingItem: ShoppingItem): Long 
             )
 
 fun deleteShoppingItemFromSqlDb(context: Context, shoppingItem: ShoppingItem) =
+        deleteShoppingItemFromSqlDb(context, shoppingItem.id)
+
+fun deleteShoppingItemFromSqlDb(context: Context, id: Long) =
         DatabaseHolder.getInstance(context).writableDatabase.delete(
                 DbContract.ShoppingItemsTable.name,
-                BaseColumns._ID,
-                arrayOf(shoppingItem.id.toString())
+                "${BaseColumns._ID} =?",
+                arrayOf(id.toString())
         )
 
 fun android.database.sqlite.SQLiteDatabase.saveInTransaction(operation: (android.database.sqlite.SQLiteDatabase) -> Long): Long {

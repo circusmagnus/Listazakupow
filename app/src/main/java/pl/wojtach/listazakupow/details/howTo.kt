@@ -2,17 +2,14 @@ package pl.wojtach.listazakupow.details
 
 import android.content.Context
 import pl.wojtach.listazakupow.list.ShoppingList
-import pl.wojtach.listazakupow.shared.getShoppingItemById
-import pl.wojtach.listazakupow.shared.getShoppingItemsIds
-import pl.wojtach.listazakupow.shared.getShoppingListByIdFromSQLIte
-import pl.wojtach.listazakupow.shared.saveShoppingItemToSqlDb
+import pl.wojtach.listazakupow.shared.*
 import java.text.SimpleDateFormat
 
-//fun drawDetailsView(shoppingList: ShoppingList, shoppingItems: List<ShoppingItem>, view: ShoppingDetailsView) =
+//fun drawDetailsView(shoppingList: ShoppingList, shoppingItemGetters: List<ShoppingItem>, view: ShoppingDetailsView) =
 //        view.apply {
 //            shoppingListName.text = shoppingList.name
 //            shoppingListDate.text =  SimpleDateFormat("dd-MM-yyyy").format(Date(shoppingList.timestamp))
-//            shoppingListItems.adapter.items = shoppingItems
+//            shoppingListItems.adapter.getters = shoppingItemGetters
 //        }
 
 fun createShoppingDetailsState(appContext: Context, shoppingListId: Long): ShoppingDetailsState =
@@ -36,15 +33,29 @@ private fun createShoppingItemGetters(shoppingListId: Long, appContext: Context)
         getShoppingItemsIds(shoppingListId, appContext)
                 .map { shoppingItemId -> createShoppingItemGetter(shoppingItemId) }
 
+//private fun createShoppingItemsRemovers(shoppingListId: Long, view: ShoppingDetailsView) =
+//        getShoppingItemsIds(shoppingListId, view.appContext)
+//                .map { _ -> createShoppingItemRemover(view) }
+
 fun addNewShoppingItem(oldState: ShoppingDetailsState, appContext: Context): EditableShoppingDetailsState =
-        ShoppingItem(shoppingListId = oldState.shoppingList.id, item = "co?")
+        ShoppingItem(shoppingListId = oldState.shoppingList.id, item = "")
                 .let { saveShoppingItemToSqlDb(appContext, it) }
                 .let { id -> createShoppingItemGetter(id) }
-                .let { oldState.shoppingItems + it }
+                .let { newGetter -> oldState.shoppingItemGetters + newGetter }
                 .let { EditableShoppingDetailsState(oldState.shoppingList, it) }
 
 private fun createShoppingItemGetter(shoppingItemId: Long) =
         { context: Context -> getShoppingItemById(shoppingItemId, context) }
+
+fun createShoppingItemRemover(shoppingDetailsView: ShoppingDetailsView, shoppingListId: Long) =
+        { context: Context, shoppingItemId: Long ->
+            deleteShoppingItemFromSqlDb(context, shoppingItemId)
+                    .let { createShoppingDetailsState(
+                            context,
+                            shoppingListId) }
+                    .apply { this.toString() }
+                    .draw(shoppingDetailsView)
+        }
 
 
 fun getShoppingListFromUI(view: ShoppingDetailsView) = ShoppingList(
