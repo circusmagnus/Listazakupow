@@ -29,3 +29,13 @@ val onShoppingListArchived: (Long, ShoppingListsView) -> Unit = {
             ?.let { getActiveShoppingListsFromSQLite(listView.context.applicationContext) }
             ?.let { lists: List<ShoppingList> -> drawListView(lists, listView) }
 }
+
+val onShowArchivedListsClicked = { mainView: ShoppingListsMainView ->
+    getArchivedShoppingListsFromSQLite(mainView.appContext)
+            .let { drawListView(it, mainView.shoppingLists) }
+}
+
+val onShowActiveListsClicked = { mainView: ShoppingListsMainView ->
+    getActiveShoppingListsFromSQLite(mainView.appContext)
+            .let { drawListView(it, mainView.shoppingLists) }
+}

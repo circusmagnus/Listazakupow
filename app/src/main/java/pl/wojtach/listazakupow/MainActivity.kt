@@ -7,21 +7,26 @@ import android.util.Log
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import pl.wojtach.listazakupow.database.DatabaseHolder
-import pl.wojtach.listazakupow.list.onActivityStart
-import pl.wojtach.listazakupow.list.onAddNewShoppingList
+import pl.wojtach.listazakupow.list.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ShoppingListsMainView {
+    override val appContext
+        get() = applicationContext
+    override val shoppingLists
+        get() = shoppingListsTable
 
     private var mTextMessage: TextView? = null
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                mTextMessage!!.setText(R.string.title_home)
+                mTextMessage!!.setText("Aktywne listy")
+                onShowActiveListsClicked(this)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
-                mTextMessage!!.setText(R.string.title_dashboard)
+                mTextMessage!!.setText("Listy archiwalne")
+                onShowArchivedListsClicked(this)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {

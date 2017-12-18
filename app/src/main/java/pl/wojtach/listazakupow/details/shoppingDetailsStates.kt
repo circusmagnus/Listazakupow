@@ -1,6 +1,7 @@
 package pl.wojtach.listazakupow.details
 
 import android.content.Context
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import pl.wojtach.listazakupow.list.ShoppingList
 import java.text.SimpleDateFormat
@@ -38,9 +39,12 @@ class ArchivedShoppingDetailsState(
                 shoppingListName.text = shoppingList.name
                 shoppingListDate.text = SimpleDateFormat("dd-MM-yyyy").format(Date(shoppingList.timestamp))
                 shoppingListItems.adapter.getters = shoppingItemGetters
+                shoppingListItems.adapter.removers = shoppingItemGetters
+                        .map { createShoppingItemRemover(view, shoppingList.id) }
 
                 shoppingListName.inputType = EditorInfo.TYPE_NULL
                 shoppingListDate.inputType = EditorInfo.TYPE_NULL
+                addNewShoppingItemButton.visibility = View.GONE
             }.let { Unit }
 }
 
