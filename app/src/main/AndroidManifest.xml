@@ -22,7 +22,9 @@
                 android:name=".details.ShoppingDetailsActivity"
                 android:label="@string/title_activity_shopping_details"
                 android:parentActivityName=".MainActivity"
-                android:theme="@style/AppTheme.NoActionBar">
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="adjustPan">
+
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="pl.wojtach.listazakupow.MainActivity"/>

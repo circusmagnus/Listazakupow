@@ -29,10 +29,6 @@ class MainActivity : AppCompatActivity(), ShoppingListsMainView {
                 onShowArchivedListsClicked(this)
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_notifications -> {
-                mTextMessage!!.setText(R.string.title_notifications)
-                return@OnNavigationItemSelectedListener true
-            }
         }
         false
     }

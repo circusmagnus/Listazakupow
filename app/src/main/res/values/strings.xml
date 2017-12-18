@@ -9,4 +9,6 @@
     <string name="new_shopping_list_name">Nowa lista</string>
     <string name="title_activity_shopping_details">ShoppingDetailsActivity</string>
     <string name="shopping_item_hint">co kupić?</string>
+    <string name="archived_lists">Archiwalne</string>
+    <string name="active_lists">Aktualne</string>
 </resources>

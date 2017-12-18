@@ -24,10 +24,27 @@ class ShoppingItemsAdapter(var getters: List<GetShoppingItem>, var removers: Lis
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingItemHolder =
-            ShoppingItemHolder(LayoutInflater.from(parent.context).inflate(
-                    R.layout.shopping_item, parent, false) as ViewGroup)
+            when (viewType) {
+                0 -> ShoppingItemHolder.OrdinaryHolder(
+                        getShopppingItemView(parent)
+                )
+                1 -> ShoppingItemHolder.LastShoppingItemHolder(
+                        getShopppingItemView(parent)
+                )
+                else -> throw IllegalStateException("Invalid view type")
+            }
+
+    private fun getShopppingItemView(parent: ViewGroup) =
+            LayoutInflater.from(parent.context).inflate(
+                    R.layout.shopping_item, parent, false) as ViewGroup
 
     override fun getItemCount(): Int = getters.size
+
+    override fun getItemViewType(position: Int): Int =
+            when (position) {
+                getters.lastIndex -> 1
+                else -> 0
+            }
 
     override fun onViewRecycled(holder: ShoppingItemHolder?) {
         holder?.onUnbind()
@@ -35,13 +52,13 @@ class ShoppingItemsAdapter(var getters: List<GetShoppingItem>, var removers: Lis
     }
 }
 
-class ShoppingItemHolder(val view: ViewGroup): RecyclerView.ViewHolder(view) {
+sealed class ShoppingItemHolder(open val view: ViewGroup) : RecyclerView.ViewHolder(view) {
 
     private lateinit var textWatcher: TextWatcher
 
     private fun appContext(): Context = view.context.applicationContext
 
-    fun onBind(getItem: GetShoppingItem, removeShoppingItem: RemoveShoppingItem){
+    open fun onBind(getItem: GetShoppingItem, removeShoppingItem: RemoveShoppingItem) {
 
         with(getItem(appContext())!!) {
             textWatcher = SimpleTextWatcher {
@@ -63,6 +80,16 @@ class ShoppingItemHolder(val view: ViewGroup): RecyclerView.ViewHolder(view) {
     fun onUnbind() {
         view.shopping_item.removeTextChangedListener(textWatcher)
         view.delete_button.setOnClickListener(null)
+    }
+
+    class OrdinaryHolder(override val view: ViewGroup) : ShoppingItemHolder(view)
+
+    class LastShoppingItemHolder(override val view: ViewGroup) : ShoppingItemHolder(view) {
+
+        override fun onBind(getItem: GetShoppingItem, removeShoppingItem: RemoveShoppingItem) {
+            super.onBind(getItem, removeShoppingItem)
+            view.shopping_item.requestFocus()
+        }
     }
 }
 
