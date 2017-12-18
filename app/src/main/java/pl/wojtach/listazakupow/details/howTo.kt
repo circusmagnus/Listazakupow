@@ -5,13 +5,6 @@ import pl.wojtach.listazakupow.list.ShoppingList
 import pl.wojtach.listazakupow.shared.*
 import java.text.SimpleDateFormat
 
-//fun drawDetailsView(shoppingList: ShoppingList, shoppingItemGetters: List<ShoppingItem>, view: ShoppingDetailsView) =
-//        view.apply {
-//            shoppingListName.text = shoppingList.name
-//            shoppingListDate.text =  SimpleDateFormat("dd-MM-yyyy").format(Date(shoppingList.timestamp))
-//            shoppingListItems.adapter.getters = shoppingItemGetters
-//        }
-
 fun createShoppingDetailsState(appContext: Context, shoppingListId: Long): ShoppingDetailsState =
         getShoppingListByIdFromSQLIte(appContext, shoppingListId)
                 .let {
@@ -33,9 +26,7 @@ private fun createShoppingItemGetters(shoppingListId: Long, appContext: Context)
         getShoppingItemsIds(shoppingListId, appContext)
                 .map { shoppingItemId -> createShoppingItemGetter(shoppingItemId) }
 
-//private fun createShoppingItemsRemovers(shoppingListId: Long, view: ShoppingDetailsView) =
-//        getShoppingItemsIds(shoppingListId, view.appContext)
-//                .map { _ -> createShoppingItemRemover(view) }
+
 
 fun addNewShoppingItem(oldState: ShoppingDetailsState, appContext: Context): EditableShoppingDetailsState =
         ShoppingItem(shoppingListId = oldState.shoppingList.id, item = "")

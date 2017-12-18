@@ -15,7 +15,7 @@ class ShoppingListsView @JvmOverloads constructor(
         defStyleAttr: Int = 0
 ) : RecyclerView(context, attrs, defStyleAttr) {
 
-    val adapter = ShoppingListsAdapter(emptyList())
+    val adapter = ShoppingListsAdapter(emptyList(), emptyList())
 
     init {
         layoutManager = LinearLayoutManager(context)

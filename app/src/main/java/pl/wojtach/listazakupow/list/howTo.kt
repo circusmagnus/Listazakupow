@@ -16,14 +16,18 @@ import java.util.*
 fun drawListView(shoppingLists: List<ShoppingList>, view: ShoppingListsView) =
         view.adapter.apply {
             this.shoppingLists = shoppingLists
+            this.archivers =
+                    shoppingLists
+                    .map { { shoppingList: ShoppingList -> onShoppingListArchived(shoppingList.id, view) } }
             notifyDataSetChanged()
         }
 
 
-fun drawSmallShoppingListView(shoppingList: ShoppingList, view: ShoppingListSmallView) =
+fun drawSmallShoppingListView(shoppingList: ShoppingList, view: ShoppingListSmallView, archivize: ShoppingListArchiver) =
         view.apply {
             name.setText(shoppingList.name)
             date.setText(SimpleDateFormat("dd-MM-yyyy").format(Date(shoppingList.timestamp)))
+            archivize_button.setOnClickListener { archivize(shoppingList) }
         }
 
 fun addNewShoppingList(oldData: List<ShoppingList>, timestamp: Long) = ShoppingList(
@@ -39,3 +43,6 @@ fun startShoppingListDetailsActivity(listId: Long, context: Context) =
         Intent(context, ShoppingDetailsActivity::class.java)
                 .apply { putExtra(shoppingListIdKey, listId) }
                 .let { context.startActivity(it) }
+
+fun archivizeShoppingList(shoppingList: ShoppingList) =
+        shoppingList.copy(isArchived = true)

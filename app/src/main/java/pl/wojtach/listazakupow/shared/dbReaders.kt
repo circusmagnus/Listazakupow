@@ -37,6 +37,17 @@ fun getAllShoppingListsFromSQLite(context: Context): List<ShoppingList> = QueryP
 ).executeQuery(context)
         .let { mapToShoppingLists(it) }
 
+fun getActiveShoppingListsFromSQLite(context: Context): List<ShoppingList> = QueryPayload(
+        DbContract.ShoppingListsTable.name,
+        shoppingListsProjection,
+        "${DbContract.ShoppingListsTable.Columns.isArchived}=?",
+        arrayOf("0"),
+        null,
+        null,
+        "$timestamp DESC"
+).executeQuery(context)
+        .let { mapToShoppingLists(it) }
+
 fun getShoppingListByIdFromSQLIte(context: Context, id: Long): ShoppingList? = QueryPayload(
         DbContract.ShoppingListsTable.name,
         shoppingListsProjection,

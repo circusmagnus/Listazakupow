@@ -9,11 +9,13 @@ import pl.wojtach.listazakupow.R
  * Created by Lukasz on 03.12.2017.
  */
 
-class ShoppingListsAdapter(var shoppingLists: List<ShoppingList>)
+typealias ShoppingListArchiver = (ShoppingList) -> Unit
+
+class ShoppingListsAdapter(var shoppingLists: List<ShoppingList>, var archivers: List<ShoppingListArchiver>)
     : RecyclerView.Adapter<ShoppingListHolder>() {
 
     override fun onBindViewHolder(holder: ShoppingListHolder, position: Int) {
-        holder.setData(shoppingLists[position])
+        holder.onBind(shoppingLists[position], archivers[position])
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingListHolder =
