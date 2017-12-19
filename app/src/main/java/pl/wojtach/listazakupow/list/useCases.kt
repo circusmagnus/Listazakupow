@@ -17,9 +17,7 @@ fun onAddNewShoppingList(view: ShoppingListsView, activity: Activity)
             startShoppingListDetailsActivity(it.first().id, activity)
         }
 
-fun onActivityCreate(activity: Activity, view: ShoppingListsView) =
-        initProcedureWith { getActiveShoppingListsFromSQLite(activity.applicationContext) }
-                .use { drawListView(shoppingLists = it, view = view) }
+val onActivityCreate = { mainView: ShoppingListsMainView -> drawMainView(mainView) }
 
 val onActivityStart = { mainView: ShoppingListsMainView ->
     when (mainView.state) {

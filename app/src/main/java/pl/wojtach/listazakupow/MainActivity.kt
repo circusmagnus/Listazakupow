@@ -27,12 +27,10 @@ class MainActivity : AppCompatActivity(), ShoppingListsMainView {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                message.text = getString(R.string.active_lists)
                 onShowActiveListsClicked(this)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
-                message.text = getString(R.string.archived_lists)
                 onShowArchivedListsClicked(this)
                 return@OnNavigationItemSelectedListener true
             }
@@ -44,8 +42,8 @@ class MainActivity : AppCompatActivity(), ShoppingListsMainView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         state = values()[savedInstanceState?.getInt(STATE_KEY, 0) ?: 0]
+        onActivityCreate(this)
 
-        val navigation = findViewById<BottomNavigationView>(R.id.navigation) as BottomNavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         addNewShoppingListButton
