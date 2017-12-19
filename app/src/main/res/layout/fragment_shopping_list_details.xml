@@ -8,7 +8,6 @@
         android:fitsSystemWindows="true"
         tools:context="pl.wojtach.listazakupow.details.ShoppingDetailsFrag">
 
-    <!-- TODO: Update blank fragment layout -->
     <EditText
             android:id="@+id/details_name"
             android:layout_width="wrap_content"
@@ -54,7 +53,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="8dp"
-            android:clickable="true"
             android:src="@android:drawable/ic_input_add"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/shopping_items_list"/>

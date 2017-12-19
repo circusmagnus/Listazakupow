@@ -3,6 +3,8 @@ package pl.wojtach.listazakupow.list
 import android.app.Activity
 import android.content.Context
 import android.util.Log
+import pl.wojtach.listazakupow.list.ShoppingListsMainView.STATE.ARCHIVED_LISTS
+import pl.wojtach.listazakupow.list.ShoppingListsMainView.STATE.CURRENT_LISTS
 import pl.wojtach.listazakupow.shared.*
 
 fun onAddNewShoppingList(view: ShoppingListsView, activity: Activity)
@@ -15,9 +17,16 @@ fun onAddNewShoppingList(view: ShoppingListsView, activity: Activity)
             startShoppingListDetailsActivity(it.first().id, activity)
         }
 
-fun onActivityStart(activity: Activity, view: ShoppingListsView) =
+fun onActivityCreate(activity: Activity, view: ShoppingListsView) =
         initProcedureWith { getActiveShoppingListsFromSQLite(activity.applicationContext) }
                 .use { drawListView(shoppingLists = it, view = view) }
+
+val onActivityStart = { mainView: ShoppingListsMainView ->
+    when (mainView.state) {
+        CURRENT_LISTS -> getActiveShoppingListsFromSQLite(mainView.appContext)
+        ARCHIVED_LISTS -> getArchivedShoppingListsFromSQLite(mainView.appContext)
+    }.let { drawListView(it, mainView.shoppingLists) }
+}
 
 val onShoppingListClicked = { listId: Long, context: Context -> startShoppingListDetailsActivity(listId, context) }
 
@@ -33,9 +42,13 @@ val onShoppingListArchived: (Long, ShoppingListsView) -> Unit = {
 val onShowArchivedListsClicked = { mainView: ShoppingListsMainView ->
     getArchivedShoppingListsFromSQLite(mainView.appContext)
             .let { drawListView(it, mainView.shoppingLists) }
+            .let { mainView.switchToArchivedLists() }
+            .let { drawMainView(it) }
 }
 
 val onShowActiveListsClicked = { mainView: ShoppingListsMainView ->
     getActiveShoppingListsFromSQLite(mainView.appContext)
             .let { drawListView(it, mainView.shoppingLists) }
+            .let { mainView.switchToCurrentLists() }
+            .let { drawMainView(it) }
 }

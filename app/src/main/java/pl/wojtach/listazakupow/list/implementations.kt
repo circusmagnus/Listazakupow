@@ -4,8 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import kotlinx.android.synthetic.main.shopping_list_small_card.view.*
+import pl.wojtach.listazakupow.R
 import pl.wojtach.listazakupow.details.ShoppingDetailsActivity
 import pl.wojtach.listazakupow.details.shoppingListIdKey
+import pl.wojtach.listazakupow.list.ShoppingListsMainView.STATE.ARCHIVED_LISTS
+import pl.wojtach.listazakupow.list.ShoppingListsMainView.STATE.CURRENT_LISTS
 import pl.wojtach.listazakupow.shared.saveShoppingListToSqlDb
 import java.text.SimpleDateFormat
 import java.util.*
@@ -13,6 +16,16 @@ import java.util.*
 /**
  * Created by Lukasz on 10.12.2017.
  */
+
+fun drawMainView(mainView: ShoppingListsMainView) =
+        when (mainView.state) {
+            CURRENT_LISTS -> mainView.title.text = mainView.appContext.getString(R.string.active_lists)
+            ARCHIVED_LISTS -> mainView.title.text = mainView.appContext.getString(R.string.archived_lists)
+        }
+
+fun ShoppingListsMainView.switchToCurrentLists() = apply { state = CURRENT_LISTS }
+
+fun ShoppingListsMainView.switchToArchivedLists() = apply { state = ARCHIVED_LISTS }
 
 fun drawListView(shoppingLists: List<ShoppingList>, view: ShoppingListsView) =
         view.adapter.apply {

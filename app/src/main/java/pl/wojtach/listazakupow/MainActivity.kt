@@ -8,6 +8,8 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import pl.wojtach.listazakupow.database.DatabaseHolder
 import pl.wojtach.listazakupow.list.*
+import pl.wojtach.listazakupow.list.ShoppingListsMainView.STATE.CURRENT_LISTS
+import pl.wojtach.listazakupow.list.ShoppingListsMainView.STATE.values
 
 class MainActivity : AppCompatActivity(), ShoppingListsMainView {
     override val appContext
@@ -15,17 +17,22 @@ class MainActivity : AppCompatActivity(), ShoppingListsMainView {
     override val shoppingLists
         get() = shoppingListsTable
 
-    private var mTextMessage: TextView? = null
+    override val title: TextView
+        get() = message
+
+    override var state = CURRENT_LISTS
+
+    private val STATE_KEY = "STATE_KEY"
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                mTextMessage!!.setText("Aktywne listy")
+                message.text = getString(R.string.active_lists)
                 onShowActiveListsClicked(this)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
-                mTextMessage!!.setText("Listy archiwalne")
+                message.text = getString(R.string.archived_lists)
                 onShowArchivedListsClicked(this)
                 return@OnNavigationItemSelectedListener true
             }
@@ -36,20 +43,20 @@ class MainActivity : AppCompatActivity(), ShoppingListsMainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        state = values()[savedInstanceState?.getInt(STATE_KEY, 0) ?: 0]
 
-        mTextMessage = findViewById<TextView>(R.id.message)
         val navigation = findViewById<BottomNavigationView>(R.id.navigation) as BottomNavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         addNewShoppingListButton
-                .setOnClickListener{ _ ->
-                    onAddNewShoppingList(shoppingListsTable, this).invoke() }
-
+                .setOnClickListener { _ ->
+                    onAddNewShoppingList(shoppingListsTable, this).invoke()
+                }
     }
 
     override fun onStart() {
         super.onStart()
-        onActivityStart(this, shoppingListsTable).invoke()
+        onActivityStart(this)
     }
 
     override fun onStop() {
@@ -58,4 +65,13 @@ class MainActivity : AppCompatActivity(), ShoppingListsMainView {
         super.onStop()
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putInt(STATE_KEY, state.ordinal)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        state = values()[savedInstanceState?.getInt(STATE_KEY, 0) ?: 0]
+        super.onRestoreInstanceState(savedInstanceState)
+    }
 }
