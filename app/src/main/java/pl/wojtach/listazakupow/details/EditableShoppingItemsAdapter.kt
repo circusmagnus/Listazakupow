@@ -9,19 +9,24 @@ import pl.wojtach.listazakupow.R
  * Created by Lukasz on 05.12.2017.
  */
 
-class ShoppingItemsAdapter(var getters: List<GetShoppingItem>, var removers: List<RemoveShoppingItem>
+interface ShoppingItemsAdapter
+
+class EditableShoppingItemsAdapter(var getters: List<GetShoppingItem>, var removers: List<RemoveShoppingItem>
 ) : RecyclerView.Adapter<ShoppingItemHolder>() {
 
     override fun onBindViewHolder(holder: ShoppingItemHolder, position: Int) {
         holder.onBind(getters[position], removers[position])
     }
 
+    private val LAST_ITEM = 1
+    private val ORDINARY_ITEM = 0
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingItemHolder =
             when (viewType) {
-                0 -> ShoppingItemHolder.OrdinaryHolder(
+                ORDINARY_ITEM -> ShoppingItemHolder.OrdinaryHolder(
                         getShopppingItemView(parent)
                 )
-                1 -> ShoppingItemHolder.LastShoppingItemHolder(
+                LAST_ITEM -> ShoppingItemHolder.LastShoppingItemHolder(
                         getShopppingItemView(parent)
                 )
                 else -> throw IllegalStateException("Invalid view type")
@@ -35,8 +40,8 @@ class ShoppingItemsAdapter(var getters: List<GetShoppingItem>, var removers: Lis
 
     override fun getItemViewType(position: Int): Int =
             when (position) {
-                getters.lastIndex -> 1
-                else -> 0
+                getters.lastIndex -> LAST_ITEM
+                else -> ORDINARY_ITEM
             }
 
     override fun onViewRecycled(holder: ShoppingItemHolder?) {
@@ -44,4 +49,6 @@ class ShoppingItemsAdapter(var getters: List<GetShoppingItem>, var removers: Lis
         super.onViewRecycled(holder)
     }
 }
+
+
 

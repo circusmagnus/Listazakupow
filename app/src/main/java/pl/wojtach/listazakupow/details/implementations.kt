@@ -60,5 +60,8 @@ private fun getTimeStampFromUI(view: ShoppingDetailsView) =
         view.shoppingListDate.text.toString().let { SimpleDateFormat("dd-MM-yyyy").parse(it).time }
 
 fun scrollToNewItem(view: ShoppingDetailsView) {
-    view.shoppingListItems.scrollToPosition(view.shoppingListItems.adapter.getters.lastIndex)
+    view.shoppingListItems.scrollToPosition(getLastPosition(view))
 }
+
+private fun getLastPosition(view: ShoppingDetailsView) =
+        view.shoppingListItems.adapter.itemCount - 1

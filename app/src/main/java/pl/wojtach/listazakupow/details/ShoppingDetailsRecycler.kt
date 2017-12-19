@@ -15,9 +15,13 @@ class ShoppingDetailsRecycler @JvmOverloads constructor(
 ) : RecyclerView(context, attrs, defStyleAttr) {
 
     init {
-        adapter = ShoppingItemsAdapter(emptyList(), emptyList())
         layoutManager = LinearLayoutManager(context)
     }
 
-    override fun getAdapter(): ShoppingItemsAdapter = super.getAdapter() as ShoppingItemsAdapter
+    fun getEditableItemsAdapter(): EditableShoppingItemsAdapter? =
+            super.getAdapter() as? EditableShoppingItemsAdapter
+
+    fun getNonEditableItemsAdapter(): NonEditableShoppingItemsAdapter? =
+            super.getAdapter() as? NonEditableShoppingItemsAdapter
+
 }
