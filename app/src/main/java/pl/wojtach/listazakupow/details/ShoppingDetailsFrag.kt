@@ -31,8 +31,6 @@ class ShoppingDetailsFrag : Fragment(), ShoppingDetailsView {
     override var selectedShoppingListId: Long = -1
         private set
 
-    var state: ShoppingDetailsState = NonExistingShoppingDetailsState()
-
     override fun onCreateView(
             inflater: LayoutInflater?,
             container: ViewGroup?,
@@ -52,11 +50,6 @@ class ShoppingDetailsFrag : Fragment(), ShoppingDetailsView {
                 appContext = appContext,
                 view = this,
                 shoppingListId = selectedShoppingListId).invoke()
-    }
-
-    override fun onDestroyView() {
-        onFragmentDestroyed(this, appContext)
-        super.onDestroyView()
     }
 
     interface ShoppingListIdProvider {

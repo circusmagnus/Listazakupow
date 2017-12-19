@@ -18,14 +18,6 @@ val onShoppingListItemAdded: (ShoppingDetailsView, Context, Long) -> Unit =
 
         }
 
-//        initProcedureWith { createShoppingDetailsState(appContext, shoppingListId) }
-//                .compose { addNewShoppingItem(it, appContext) }
-//                .use { it.draw(view) }
-
-fun onFragmentDestroyed(view: ShoppingDetailsView, appContext: Context) =
-        initProcedureWith { getShoppingListFromUI(view) }
-                .use { saveShoppingListToSqlDb(appContext, it) }
-
 val onShoppingItemEdited =
         { item: ShoppingItem, appContext: Context ->
             saveShoppingItemToSqlDb(appContext, item)
