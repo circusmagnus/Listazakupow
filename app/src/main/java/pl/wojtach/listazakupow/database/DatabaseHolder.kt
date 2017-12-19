@@ -9,10 +9,11 @@ class DatabaseHolder private constructor(context: Context)
     : SQLiteOpenHelper(context, DbContract.DATABASE_NAME, null, DbContract.DATABASE_VERSION) {
 
     companion object {
-        private var instance: pl.wojtach.listazakupow.database.DatabaseHolder? = null
+        private var instance: DatabaseHolder? = null
         fun getInstance(context: Context) = instance
                 .takeUnless { it == null }
-                ?: DatabaseHolder(context).also { instance = it }
+                ?: synchronized(this, { if (instance == null) DatabaseHolder(context) else instance })
+                .also { instance = it }
     }
 
     val createShoppingListTableStatement = (
