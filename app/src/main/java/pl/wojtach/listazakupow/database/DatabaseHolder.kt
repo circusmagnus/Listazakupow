@@ -10,10 +10,13 @@ class DatabaseHolder private constructor(context: Context)
 
     companion object {
         private var instance: DatabaseHolder? = null
-        fun getInstance(context: Context) = instance
+        
+        fun getInstance(context: Context): DatabaseHolder = instance
                 .takeUnless { it == null }
-                ?: synchronized(this, { if (instance == null) DatabaseHolder(context) else instance })
-                .also { instance = it }
+                ?: synchronized(this, { instance.takeUnless { it == null } ?: newInstance(context) })
+
+        private fun newInstance(context: Context) =
+                DatabaseHolder(context).also { instance = it }
     }
 
     val createShoppingListTableStatement = (
