@@ -1,4 +1,4 @@
-package pl.wojtach.listazakupow.details
+package pl.wojtach.listazakupow.details.editable
 
 import android.text.Editable
 import android.text.TextWatcher

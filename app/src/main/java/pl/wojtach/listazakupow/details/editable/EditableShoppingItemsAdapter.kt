@@ -1,15 +1,17 @@
-package pl.wojtach.listazakupow.details
+package pl.wojtach.listazakupow.details.editable
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import pl.wojtach.listazakupow.R
+import pl.wojtach.listazakupow.details.GetShoppingItem
+import pl.wojtach.listazakupow.details.ShoppingItem
 
 /**
  * Created by Lukasz on 05.12.2017.
  */
 
-interface ShoppingItemsAdapter
+typealias RemoveShoppingItem = (ShoppingItem) -> Unit
 
 class EditableShoppingItemsAdapter(var getters: List<GetShoppingItem>, var removers: List<RemoveShoppingItem>
 ) : RecyclerView.Adapter<ShoppingItemHolder>() {

@@ -1,9 +1,10 @@
-package pl.wojtach.listazakupow.details
+package pl.wojtach.listazakupow.details.archived
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import pl.wojtach.listazakupow.R
+import pl.wojtach.listazakupow.details.GetShoppingItem
 
 class NonEditableShoppingItemsAdapter(var getters: List<GetShoppingItem>
 ) : RecyclerView.Adapter<ArchivedShoppingItemHolder>() {

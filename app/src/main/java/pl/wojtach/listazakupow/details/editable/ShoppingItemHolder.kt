@@ -1,10 +1,13 @@
-package pl.wojtach.listazakupow.details
+package pl.wojtach.listazakupow.details.editable
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.text.TextWatcher
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.shopping_item.view.*
+import pl.wojtach.listazakupow.details.GetShoppingItem
+import pl.wojtach.listazakupow.details.ShoppingItem
+import pl.wojtach.listazakupow.details.onShoppingItemEdited
 
 sealed class ShoppingItemHolder(open val view: ViewGroup) : RecyclerView.ViewHolder(view) {
 
@@ -27,7 +30,7 @@ sealed class ShoppingItemHolder(open val view: ViewGroup) : RecyclerView.ViewHol
             }
             view.shopping_item.setText(this.item)
             view.shopping_item.addTextChangedListener(textWatcher)
-            view.delete_button.setOnClickListener { removeShoppingItem(appContext(), this.id) }
+            view.delete_button.setOnClickListener { removeShoppingItem(this) }
         }
     }
 

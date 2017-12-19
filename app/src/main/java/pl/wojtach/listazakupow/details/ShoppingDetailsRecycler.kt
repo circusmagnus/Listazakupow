@@ -4,6 +4,8 @@ import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
+import pl.wojtach.listazakupow.details.archived.NonEditableShoppingItemsAdapter
+import pl.wojtach.listazakupow.details.editable.EditableShoppingItemsAdapter
 
 /**
  * Created by Lukasz on 05.12.2017.
