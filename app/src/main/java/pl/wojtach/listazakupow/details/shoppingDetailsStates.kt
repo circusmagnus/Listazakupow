@@ -18,7 +18,8 @@ interface ShoppingDetailsState{
     fun draw (view: ShoppingDetailsView)
 }
 
-class NonExistingShoppingDetailsState : ShoppingDetailsState {
+//TODO(Intended for signalling errors but not used yet)
+class ErrorShoppingDetailsState : ShoppingDetailsState {
     override val shoppingList: ShoppingList
         get() = throw IllegalStateException()
     override val shoppingItemGetters: List<GetShoppingItem>

@@ -9,7 +9,7 @@ fun createShoppingDetailsState(appContext: Context, shoppingListId: Long): Shopp
         getShoppingListByIdFromSQLIte(appContext, shoppingListId)
                 .let {
                     when {
-                        it == null -> NonExistingShoppingDetailsState()
+                        it == null -> ErrorShoppingDetailsState()
                         it.isArchived -> ArchivedShoppingDetailsState(
                                 it,
                                 createShoppingItemGetters(shoppingListId, appContext)
