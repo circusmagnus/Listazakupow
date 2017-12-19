@@ -44,7 +44,6 @@ class DatabaseHolder private constructor(context: Context)
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS " + DbContract.ShoppingListsTable.name)
         db.execSQL("DROP TABLE IF EXISTS " + DbContract.ShoppingItemsTable.name)
-        db.execSQL(createShoppingListTableStatement)
-        db.execSQL(createShoppingItemsTableStatement)
+        onCreate(db)
     }
 }
