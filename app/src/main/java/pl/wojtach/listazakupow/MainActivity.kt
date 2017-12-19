@@ -67,9 +67,4 @@ class MainActivity : AppCompatActivity(), ShoppingListsMainView {
         outState?.putInt(STATE_KEY, state.ordinal)
         super.onSaveInstanceState(outState)
     }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        state = values()[savedInstanceState?.getInt(STATE_KEY, 0) ?: 0]
-        super.onRestoreInstanceState(savedInstanceState)
-    }
 }
