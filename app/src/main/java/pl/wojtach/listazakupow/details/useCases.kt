@@ -13,7 +13,9 @@ val onShoppingListItemAdded: (ShoppingDetailsView, Context, Long) -> Unit =
         { view: ShoppingDetailsView, appContext: Context, shoppingListId: Long ->
             createShoppingDetailsState(appContext, shoppingListId)
                     .let { addNewShoppingItem(it, appContext) }
-                    .run { draw(view) }
+                    .draw(view)
+                    .also { scrollToNewItem(view) }
+
         }
 
 //        initProcedureWith { createShoppingDetailsState(appContext, shoppingListId) }
@@ -25,7 +27,8 @@ fun onFragmentDestroyed(view: ShoppingDetailsView, appContext: Context) =
                 .use { saveShoppingListToSqlDb(appContext, it) }
 
 val onShoppingItemEdited =
-        { item: ShoppingItem, appContext: Context -> saveShoppingItemToSqlDb(appContext, item)
+        { item: ShoppingItem, appContext: Context ->
+            saveShoppingItemToSqlDb(appContext, item)
             Log.d("onItemEdited", "id: ${item.id} content: ${item.item}")
         }
 

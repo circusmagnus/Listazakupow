@@ -15,9 +15,3 @@ fun <T> StateProvider<T>.use(how: (T) -> Any) =
 
 fun <T>StateProvider<T>.filter(predicate: (T) -> Boolean): StateProvider<T>? =
         if(predicate(this()))  { this } else null
-
-//fun GetShoppingLists.filter(howToFilter: (List<ShoppingList>) -> Boolean) :GetShoppingLists =
-//        { if(howToFilter(this())) this() else emptyList<ShoppingList>()}
-
-//fun <T>GetShoppingList<T>.filter(shouldPass: (ShoppingListsView) -> Boolean) =
-//        { dataSource: T, view: ShoppingListsView -> if(shouldPass(view)) this(dataSource) else null }

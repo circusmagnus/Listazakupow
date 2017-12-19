@@ -32,7 +32,7 @@ fun drawSmallShoppingListView(shoppingList: ShoppingList, view: ShoppingListSmal
         }
 
 fun addNewShoppingList(oldData: List<ShoppingList>, timestamp: Long) = ShoppingList(
-        name = "Lista zakupów",
+        name = "",
         timestamp = timestamp,
         isArchived = false
 ).let { listOf(it) + oldData }
