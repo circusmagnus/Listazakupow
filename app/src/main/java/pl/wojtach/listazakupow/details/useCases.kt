@@ -5,6 +5,9 @@ import android.util.Log
 import pl.wojtach.listazakupow.list.ShoppingList
 import pl.wojtach.listazakupow.shared.*
 
+//TODO: Operate on Database in background thread
+
+//TODO: change this one to convention of use cases as function vals
 fun onFragmentViewCreated(view: ShoppingDetailsView, appContext: Context, shoppingListId: Long) =
         initProcedureWith { createShoppingDetailsState(appContext, shoppingListId) }
                 .use { it.draw(view) }

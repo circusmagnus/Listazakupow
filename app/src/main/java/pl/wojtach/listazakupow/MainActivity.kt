@@ -3,7 +3,6 @@ package pl.wojtach.listazakupow
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import pl.wojtach.listazakupow.database.DatabaseHolder
@@ -58,8 +57,8 @@ class MainActivity : AppCompatActivity(), ShoppingListsMainView {
     }
 
     override fun onStop() {
+        //TODO: count StartedActivities in Applicatiion Component and close db connection only if none are started
         DatabaseHolder.getInstance(applicationContext).close()
-        Log.d(this::class.java.simpleName, "onStop")
         super.onStop()
     }
 

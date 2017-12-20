@@ -2,18 +2,19 @@ package pl.wojtach.listazakupow.list
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import pl.wojtach.listazakupow.list.ShoppingListsMainView.STATE.ARCHIVED_LISTS
 import pl.wojtach.listazakupow.list.ShoppingListsMainView.STATE.CURRENT_LISTS
 import pl.wojtach.listazakupow.shared.*
 
+//TODO: Operate on Database in background thread
+
+//TODO: change this one to convention of use cases as function vals
 fun onAddNewShoppingList(view: ShoppingListsView, activity: Activity)
         = initProcedureWith { view.adapter.shoppingLists }
         .compose { addNewShoppingList(it, System.currentTimeMillis()) }
         .compose { saveShoppingLists(data = it, context = activity.applicationContext) }
         .use {
             drawListView(shoppingLists = it, view = view)
-            Log.d("onAddNewShoppingList", "${it.first().timestamp}")
             startShoppingListDetailsActivity(it.first().id, activity)
         }
 
