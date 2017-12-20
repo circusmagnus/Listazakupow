@@ -12,6 +12,9 @@ import pl.wojtach.listazakupow.list.ShoppingList
 /**
  * Created by Lukasz on 09.12.2017.
  */
+
+//TODO: error handling
+
 fun saveShoppingListToSqlDb(context: Context, shoppingList: ShoppingList): Long =
         DatabaseHolder.getInstance(context).writableDatabase.insertWithOnConflict(
                     DbContract.ShoppingListsTable.name,

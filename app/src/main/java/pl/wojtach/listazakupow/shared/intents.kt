@@ -3,6 +3,8 @@ package pl.wojtach.listazakupow.shared
 /**
  * Created by Lukasz on 09.12.2017.
  */
+
+//TODO: get rid of them, not really needed
 typealias StateProvider<T> = () -> T
 
 fun <T> initProcedureWith(what: () -> T): StateProvider<T> = { what() }

@@ -11,6 +11,8 @@ import pl.wojtach.listazakupow.database.DbContract.ShoppingListsTable.Columns.ti
 import pl.wojtach.listazakupow.details.ShoppingItem
 import pl.wojtach.listazakupow.list.ShoppingList
 
+//TODO: Error handling
+
 private val shoppingListsProjection = arrayOf(
         BaseColumns._ID,
         name,
