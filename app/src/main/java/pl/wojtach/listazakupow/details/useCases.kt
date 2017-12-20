@@ -9,13 +9,13 @@ fun onFragmentViewCreated(view: ShoppingDetailsView, appContext: Context, shoppi
         initProcedureWith { createShoppingDetailsState(appContext, shoppingListId) }
                 .use { it.draw(view) }
 
-val onShoppingListItemAdded: (ShoppingDetailsView, Context, Long) -> Unit =
-        { view: ShoppingDetailsView, appContext: Context, shoppingListId: Long ->
-            createShoppingDetailsState(appContext, shoppingListId)
-                    .let { addNewShoppingItem(it, appContext) }
+val onShoppingListItemAdded: (ShoppingDetailsView, Long) -> Unit =
+        { view: ShoppingDetailsView, shoppingListId: Long ->
+            createNewShoppingItem(shoppingListId)
+                    .let { saveShoppingItemToSqlDb(view.appContext, it) }
+                    .let { createShoppingDetailsState(view.appContext, shoppingListId) }
                     .draw(view)
                     .also { scrollToNewItem(view) }
-
         }
 
 val onShoppingItemEdited =

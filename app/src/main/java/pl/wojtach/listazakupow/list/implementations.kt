@@ -3,6 +3,7 @@ package pl.wojtach.listazakupow.list
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import kotlinx.android.synthetic.main.shopping_list_small_card.view.*
 import pl.wojtach.listazakupow.R
 import pl.wojtach.listazakupow.details.ShoppingDetailsActivity
@@ -41,7 +42,14 @@ fun drawSmallShoppingListView(shoppingList: ShoppingList, view: ShoppingListSmal
         view.apply {
             name.text = shoppingList.name
             date.text = SimpleDateFormat("dd-MM-yyyy").format(Date(shoppingList.timestamp))
-            archivize_button.setOnClickListener { archivize(shoppingList) }
+
+            when (shoppingList.isArchived) {
+                true -> archivize_button.visibility = View.GONE
+                false -> {
+                    archivize_button.visibility = View.VISIBLE
+                    archivize_button.setOnClickListener { archivize(shoppingList) }
+                }
+            }
         }
 
 fun addNewShoppingList(oldData: List<ShoppingList>, timestamp: Long) = ShoppingList(

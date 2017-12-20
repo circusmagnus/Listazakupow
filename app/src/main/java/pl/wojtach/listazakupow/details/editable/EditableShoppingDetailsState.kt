@@ -35,12 +35,7 @@ class EditableShoppingDetailsState(
             getters.map { { item: ShoppingItem -> onShoppingItemDeleted(item, shoppingDetailsView) } }
 
     private fun ShoppingDetailsView.setupAddButton() {
-        addNewShoppingItemButton.setOnClickListener {
-            onShoppingListItemAdded(
-                    this,
-                    this.appContext,
-                    shoppingList.id)
-        }
+        addNewShoppingItemButton.setOnClickListener { onShoppingListItemAdded(this, shoppingList.id) }
     }
 
     private fun ShoppingDetailsView.drawListDate() {
