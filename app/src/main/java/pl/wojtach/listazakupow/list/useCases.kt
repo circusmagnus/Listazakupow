@@ -2,6 +2,9 @@ package pl.wojtach.listazakupow.list
 
 import android.app.Activity
 import android.content.Context
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import pl.wojtach.listazakupow.list.ShoppingListsMainView.STATE.ARCHIVED_LISTS
 import pl.wojtach.listazakupow.list.ShoppingListsMainView.STATE.CURRENT_LISTS
 import pl.wojtach.listazakupow.shared.*
@@ -20,11 +23,15 @@ fun onAddNewShoppingList(view: ShoppingListsView, activity: Activity)
 
 val onActivityCreate = { mainView: ShoppingListsMainView -> drawMainView(mainView) }
 
-val onActivityStart = { mainView: ShoppingListsMainView ->
-    when (mainView.state) {
-        CURRENT_LISTS -> getActiveShoppingListsFromSQLite(mainView.appContext)
-        ARCHIVED_LISTS -> getArchivedShoppingListsFromSQLite(mainView.appContext)
-    }.let { drawListView(it, mainView.shoppingLists) }
+fun onActivityStart() = { mainView: ShoppingListsMainView ->
+    launch(UI) { setupListView(mainView) }
+}
+
+private suspend fun setupListView(mainView: ShoppingListsMainView): ShoppingListsAdapter {
+    return when (mainView.state) {
+        CURRENT_LISTS -> async { getActiveShoppingListsFromSQLite(mainView.appContext) }
+        ARCHIVED_LISTS -> async { getArchivedShoppingListsFromSQLite(mainView.appContext) }
+    }.let { drawListView(it.await(), mainView.shoppingLists) }
 }
 
 val onShoppingListClicked = { listId: Long, context: Context -> startShoppingListDetailsActivity(listId, context) }

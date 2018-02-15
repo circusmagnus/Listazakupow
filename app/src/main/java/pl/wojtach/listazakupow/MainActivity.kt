@@ -43,17 +43,23 @@ class MainActivity : AppCompatActivity(), ShoppingListsMainView {
         state = values()[savedInstanceState?.getInt(STATE_KEY, 0) ?: 0]
         onActivityCreate(this)
 
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        onActivityStart()(this)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         addNewShoppingListButton
                 .setOnClickListener { _ ->
                     onAddNewShoppingList(shoppingListsTable, this).invoke()
                 }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        onActivityStart(this)
     }
 
     override fun onStop() {
