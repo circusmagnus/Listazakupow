@@ -21,7 +21,7 @@ fun onAddNewShoppingList(view: ShoppingListsView, activity: Activity)
             startShoppingListDetailsActivity(it.first().id, activity)
         }
 
-val onActivityCreate = { mainView: ShoppingListsMainView -> drawMainView(mainView) }
+fun onActivityCreate() = { mainView: ShoppingListsMainView -> drawMainView(mainView) }
 
 fun onActivityStart() = { mainView: ShoppingListsMainView ->
     launch(UI) { setupListView(mainView) }
@@ -34,9 +34,9 @@ private suspend fun setupListView(mainView: ShoppingListsMainView): ShoppingList
     }.let { drawListView(it.await(), mainView.shoppingLists) }
 }
 
-val onShoppingListClicked = { listId: Long, context: Context -> startShoppingListDetailsActivity(listId, context) }
+fun onShoppingListClicked() = { listId: Long, context: Context -> startShoppingListDetailsActivity(listId, context) }
 
-val onShoppingListArchived: (Long, ShoppingListsView) -> Unit = {
+fun onShoppingListArchived(): (Long, ShoppingListsView) -> Unit = {
     listId: Long, listView: ShoppingListsView ->
     getShoppingListByIdFromSQLIte(listView.context.applicationContext, listId)
             ?.let { archivizeShoppingList(it) }
@@ -45,14 +45,14 @@ val onShoppingListArchived: (Long, ShoppingListsView) -> Unit = {
             ?.let { lists: List<ShoppingList> -> drawListView(lists, listView) }
 }
 
-val onShowArchivedListsClicked = { mainView: ShoppingListsMainView ->
+fun onShowArchivedListsClicked() = { mainView: ShoppingListsMainView ->
     getArchivedShoppingListsFromSQLite(mainView.appContext)
             .let { drawListView(it, mainView.shoppingLists) }
             .let { mainView.switchToArchivedLists() }
             .let { drawMainView(it) }
 }
 
-val onShowActiveListsClicked = { mainView: ShoppingListsMainView ->
+fun onShowActiveListsClicked() = { mainView: ShoppingListsMainView ->
     getActiveShoppingListsFromSQLite(mainView.appContext)
             .let { drawListView(it, mainView.shoppingLists) }
             .let { mainView.switchToCurrentLists() }

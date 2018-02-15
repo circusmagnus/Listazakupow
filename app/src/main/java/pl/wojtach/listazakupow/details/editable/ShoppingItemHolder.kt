@@ -19,7 +19,7 @@ sealed class ShoppingItemHolder(open val view: ViewGroup) : RecyclerView.ViewHol
 
         with(getItem(appContext())!!) {
             textWatcher = SimpleTextWatcher {
-                onShoppingItemEdited.invoke(
+                onShoppingItemEdited().invoke(
                         ShoppingItem(
                                 id = this.id,
                                 shoppingListId = this.shoppingListId,

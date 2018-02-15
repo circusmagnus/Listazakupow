@@ -12,7 +12,7 @@ fun onFragmentViewCreated(view: ShoppingDetailsView, appContext: Context, shoppi
         initProcedureWith { createShoppingDetailsState(appContext, shoppingListId) }
                 .use { it.draw(view) }
 
-val onShoppingListItemAdded: (ShoppingDetailsView, Long) -> Unit =
+fun onShoppingListItemAdded() =
         { view: ShoppingDetailsView, shoppingListId: Long ->
             createNewShoppingItem(shoppingListId)
                     .let { saveShoppingItemToSqlDb(view.appContext, it) }
@@ -21,18 +21,18 @@ val onShoppingListItemAdded: (ShoppingDetailsView, Long) -> Unit =
                     .also { scrollToNewItem(view) }
         }
 
-val onShoppingItemEdited =
+fun onShoppingItemEdited() =
         { item: ShoppingItem, appContext: Context ->
             saveShoppingItemToSqlDb(appContext, item)
             Log.d("onItemEdited", "id: ${item.id} content: ${item.item}")
         }
 
-val onShoppingItemDeleted = { item: ShoppingItem, view: ShoppingDetailsView ->
+fun onShoppingItemDeleted() = { item: ShoppingItem, view: ShoppingDetailsView ->
     deleteShoppingItemFromSqlDb(view.appContext, item)
             .let { createShoppingDetailsState(view.appContext, item.shoppingListId) }
             .draw(view)
 }
 
-val onShoppingListNameEdited = { shoppingList: ShoppingList, appContext: Context ->
+fun onShoppingListNameEdited() = { shoppingList: ShoppingList, appContext: Context ->
     saveShoppingListToSqlDb(appContext, shoppingList)
 }

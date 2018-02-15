@@ -33,7 +33,7 @@ fun drawListView(shoppingLists: List<ShoppingList>, view: ShoppingListsView) =
             this.shoppingLists = shoppingLists
             this.archivers =
                     shoppingLists
-                    .map { { shoppingList: ShoppingList -> onShoppingListArchived(shoppingList.id, view) } }
+                            .map { { shoppingList: ShoppingList -> onShoppingListArchived()(shoppingList.id, view) } }
             notifyDataSetChanged()
         }
 

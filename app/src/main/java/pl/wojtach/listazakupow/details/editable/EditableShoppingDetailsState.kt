@@ -32,10 +32,10 @@ class EditableShoppingDetailsState(
     }
 
     private fun createItemRemovers(getters: List<GetShoppingItem>, shoppingDetailsView: ShoppingDetailsView) =
-            getters.map { { item: ShoppingItem -> onShoppingItemDeleted(item, shoppingDetailsView) } }
+            getters.map { { item: ShoppingItem -> onShoppingItemDeleted()(item, shoppingDetailsView) } }
 
     private fun ShoppingDetailsView.setupAddButton() {
-        addNewShoppingItemButton.setOnClickListener { onShoppingListItemAdded(this, shoppingList.id) }
+        addNewShoppingItemButton.setOnClickListener { onShoppingListItemAdded()(this, shoppingList.id) }
     }
 
     private fun ShoppingDetailsView.drawListDate() {
@@ -46,7 +46,7 @@ class EditableShoppingDetailsState(
         shoppingListName.text = shoppingList.name
         shoppingListName.addTextChangedListener(
                 SimpleTextWatcher {
-                    onShoppingListNameEdited(
+                    onShoppingListNameEdited()(
                             shoppingList.copy(name = shoppingListName.text.toString()),
                             appContext
                     )

@@ -26,11 +26,11 @@ class MainActivity : AppCompatActivity(), ShoppingListsMainView {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                onShowActiveListsClicked(this)
+                onShowActiveListsClicked()(this)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
-                onShowArchivedListsClicked(this)
+                onShowArchivedListsClicked()(this)
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), ShoppingListsMainView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         state = values()[savedInstanceState?.getInt(STATE_KEY, 0) ?: 0]
-        onActivityCreate(this)
+        onActivityCreate()(this)
 
 
     }
