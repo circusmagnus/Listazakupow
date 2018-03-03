@@ -7,7 +7,7 @@ class ShoppingListHolder(val view: ShoppingListSmallView): RecyclerView.ViewHold
 
     fun onBind(shoppingList: ShoppingList, archiver: ShoppingListArchiver) {
         drawSmallShoppingListView(shoppingList, view, archiver)
-        view.setOnClickListener { onShoppingListClicked()(shoppingList.id, view.context) }
+        view.setOnClickListener { onShoppingListClicked(shoppingList.id, view.context) }
     }
 
     fun onUnbind(){

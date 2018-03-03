@@ -16,15 +16,28 @@ import pl.wojtach.listazakupow.list.ShoppingList
 //TODO: error handling
 
 fun saveShoppingListToSqlDb(context: Context, shoppingList: ShoppingList): Long =
-        DatabaseHolder.getInstance(context).writableDatabase.insertWithOnConflict(
+        writableDatabase(context).insertWithOnConflict(
                     DbContract.ShoppingListsTable.name,
                     null,
                     getContentValuesForList(shoppingList),
                     CONFLICT_REPLACE
             )
 
+private fun writableDatabase(context: Context) =
+        DatabaseHolder.getInstance(context).writableDatabase
+
+fun setArchivedStatusOfShoppingListInSqlDb(context: Context, id: Long) =
+        { archived: Boolean ->
+            writableDatabase(context).update(
+                    DbContract.ShoppingListsTable.name,
+                    ContentValues().apply { put(DbContract.ShoppingListsTable.Columns.isArchived, archived) },
+                    "${BaseColumns._ID}=?",
+                    arrayOf(id.toString())
+            )
+        }
+
 fun saveShoppingItemToSqlDb(context: Context, shoppingItem: ShoppingItem): Long =
-        DatabaseHolder.getInstance(context).writableDatabase.insertWithOnConflict(
+        writableDatabase(context).insertWithOnConflict(
                     DbContract.ShoppingItemsTable.name,
                     null,
                     getContentValuesForItem(shoppingItem),
@@ -35,7 +48,7 @@ fun deleteShoppingItemFromSqlDb(context: Context, shoppingItem: ShoppingItem) =
         deleteShoppingItemFromSqlDb(context, shoppingItem.id)
 
 fun deleteShoppingItemFromSqlDb(context: Context, id: Long) =
-        DatabaseHolder.getInstance(context).writableDatabase.delete(
+        writableDatabase(context).delete(
                 DbContract.ShoppingItemsTable.name,
                 "${BaseColumns._ID} =?",
                 arrayOf(id.toString())

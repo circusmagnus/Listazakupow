@@ -3,13 +3,14 @@ package pl.wojtach.listazakupow.list
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import kotlinx.coroutines.experimental.Job
 import pl.wojtach.listazakupow.R
 
 /**
  * Created by Lukasz on 03.12.2017.
  */
 
-typealias ShoppingListArchiver = (ShoppingList) -> Unit
+typealias ShoppingListArchiver = (ShoppingList) -> Job
 
 class ShoppingListsAdapter(var shoppingLists: List<ShoppingList>, var archivers: List<ShoppingListArchiver>)
     : RecyclerView.Adapter<ShoppingListHolder>() {

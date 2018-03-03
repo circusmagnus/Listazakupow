@@ -24,16 +24,20 @@ fun drawMainView(mainView: ShoppingListsMainView) =
             ARCHIVED_LISTS -> mainView.title.text = mainView.appContext.getString(R.string.archived_lists)
         }
 
-fun ShoppingListsMainView.switchToCurrentLists() = apply { state = CURRENT_LISTS }
+fun ShoppingListsMainView.switchToCurrentLists() = apply { state = CURRENT_LISTS }.also { drawMainView(this) }
 
-fun ShoppingListsMainView.switchToArchivedLists() = apply { state = ARCHIVED_LISTS }
+fun ShoppingListsMainView.switchToArchivedLists() = apply { state = ARCHIVED_LISTS }.also { drawMainView(this) }
 
 fun drawListView(shoppingLists: List<ShoppingList>, view: ShoppingListsView) =
         view.adapter.apply {
             this.shoppingLists = shoppingLists
             this.archivers =
                     shoppingLists
-                            .map { { shoppingList: ShoppingList -> onShoppingListArchived()(shoppingList.id, view) } }
+                            .map {
+                                { shoppingList: ShoppingList ->
+                                    onShoppingListArchived(listId = shoppingList.id, listView = view)
+                                }
+                            }
             notifyDataSetChanged()
         }
 
@@ -52,11 +56,16 @@ fun drawSmallShoppingListView(shoppingList: ShoppingList, view: ShoppingListSmal
             }
         }
 
-fun addNewShoppingList(oldData: List<ShoppingList>, timestamp: Long) = ShoppingList(
-        name = "",
-        timestamp = timestamp,
-        isArchived = false
-).let { listOf(it) + oldData }
+fun addNewShoppingList(oldData: List<ShoppingList>, timestamp: Long) = createNewShoppingList(timestamp)
+        .let { listOf(it) + oldData }
+
+fun createNewShoppingList(timestamp: Long): ShoppingList {
+    return ShoppingList(
+            name = "",
+            timestamp = timestamp,
+            isArchived = false
+    )
+}
 
 fun saveShoppingLists(context: Context, data: List<ShoppingList>) =
         data.map { it.copy(id = saveShoppingListToSqlDb(context, it)) }
